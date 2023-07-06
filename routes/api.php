@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomerController;
 
 use Illuminate\Http\Request;
@@ -46,6 +47,19 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::prefix('/products')->group(function () {
     Route::get('/type/{id}', [ProductController::class, 'showProdByTypes']);
     Route::get('/category/{id}', [ProductController::class, 'showProdByCats']);
+  
+
+    Route::post('/add', [ProductController::class, 'store']);
+    Route::get('/details/{id}', [ProductController::class, 'show']);
+    Route::put('/update/{id}', [ProductController::class, 'update']);
+    Route::delete('/delete/{id}', [ProductController::class, 'destroy']);
+});
+
+// FILTER TAB(PRODUCT_CATEGORIES)
+
+Route::prefix('/categories')->group(function () {
+    Route::get('/{id}', [CategoriesController::class, 'showCatByTypes']);
+   
   
 
     Route::post('/add', [ProductController::class, 'store']);

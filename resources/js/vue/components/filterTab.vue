@@ -9,11 +9,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="category in categoryOptions" :key="category">
+          <tr v-for="category in categories" :key="category">
             <td>
               <label class="checkbox-label">
                 <input type="checkbox" v-model="categoryFilter" :value="category" />
-                {{ category }}
+                {{ category.name }}
                 <span class="checkmark"></span>
               </label>
             </td>
@@ -24,62 +24,124 @@
 
     <!-- Filter by size -->
     <br />
-    <div class="table-wrapper">
-      <table class="filter-table">
-        <thead>
-          <tr>
-            <th>Kích thước</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="size in sizeOptions" :key="size">
-            <td>
-              <label class="checkbox-label">
-                <input type="checkbox" v-model="sizeFilter" :value="size" />
-                {{ size }}
-                <span class="checkmark"></span>
-              </label>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="filter-table">
+          <thead>
+            <tr>
+              <th>Kích thước</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <label class="checkbox-label">
+                  <input type="checkbox">
+                  36
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="checkbox-label">
+                  <input type="checkbox">
+                  37
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="checkbox-label">
+                  <input type="checkbox">
+                  37
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="checkbox-label">
+                  <input type="checkbox">
+                  38
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="checkbox-label">
+                  <input type="checkbox">
+                  39
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
   </div>
 </template>
 
 <script>
-import { useRoute } from "vue-router";
-
+import axios from 'axios';
 export default {
-  name: "FilterTab",
-  setup() {
-    const route = useRoute();
-    const currentRouteName = route.name;
-    let categoryOptions = [];
-    let sizeOptions = [];
-    const categoryFilter = [];
-    const sizeFilter = [];
-
-    return { currentRouteName, categoryOptions, sizeOptions, categoryFilter, sizeFilter };
+  data() {
+    return {
+      categories: [], // Declare and initialize the categories array
+    };
   },
-  watch: {
-    currentRouteName: {
-      immediate: true,
-      handler(newRoute, oldRoute) {
-        // Update categoryOptions and sizeOptions based on the current route
-        if (newRoute === "shoes") {
-          this.categoryOptions = ["Giày xăng đan", "Giày cao gót", "Giày đế bệt"];
-          this.sizeOptions = ["36", "37", "38", "39"];
-        } else if (newRoute === "bags") {
-          this.categoryOptions = ["Túi xách nhỏ", "Túi xách to", "Túi đeo chéo"];
-          this.sizeOptions = ["S", "M", "L", "XL"];
-        }
+  methods: {
+    filterType() {
+      const url = window.location.href;
+      const parts = url.split("/");
+      this.path = parts[parts.length - 1];
+      const product_type = this.path;
+      let parent_id = '';
 
-        // Reset the filters
-        this.categoryFilter = [];
-        this.sizeFilter = [];
-      },
+      switch (product_type) {
+        case 'shoes':
+          parent_id = 1;
+          this.fetchCategories(parent_id);
+          break;
+          case 'bags':
+          parent_id = 2;
+          this.fetchCategories(parent_id);
+          break;
+          case 'wallets':
+          parent_id = 3;
+          this.fetchCategories(parent_id);
+          break;
+          case 'sunglasses':
+          parent_id = 4;
+          this.fetchCategories(parent_id);
+          break;
+          case 'jewellery':
+          parent_id = 5;
+          this.fetchCategories(parent_id);
+          break;
+      }
     },
+    fetchCategories(parent_id) {
+      axios
+        .get(`/api/categories/${parent_id}`)
+        .then(response => {
+          this.categories = response.data; // Assign retrieved data to the products array
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
   },
-};
+  created(){
+   
+    this.$watch(
+      ()=> this.$route.params,
+      ()=>{
+        this.filterType();
+      },
+    );
+    this.filterType();
+  }
+}
 </script>
