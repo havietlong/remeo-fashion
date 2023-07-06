@@ -26,7 +26,7 @@ class CategoriesController extends Controller
     
     public function showCatByTypes(string $parent_id){
         
-        $categories = product_categories::where('parent_id', $parent_id)->get();
+        $categories = product_categories::where('product_type_id', $parent_id)->get();
         switch ($categories){
             case true:
                 return response()->json($categories);

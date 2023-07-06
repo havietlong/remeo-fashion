@@ -39,14 +39,7 @@ class ProductController extends Controller
      */
     public function showProdByCats(string $id)
     {
-        $products = DB::table('products')
-    ->join('product_types', 'products.product_type_id', '=', 'product_types.id')
-    ->join('product_categories', 'product_types.id', '=', 'product_categories.parent_id')
-    ->where('product_categories.parent_id', $id)
-    ->select('products.*')
-    ->distinct()
-    ->get();
-
+        $products = products::where('product_categories_id', $id)->get();
         return $products;
     }
 

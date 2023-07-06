@@ -1,7 +1,7 @@
 <template>
   <navBar />
   <div class="container_pro">
-    <filterTab />
+    <filterTab @checkbox-selected="checkboxSelected"/>
     <div class="banner_box">
       <prodBanner />
       <div class="product">
@@ -53,7 +53,8 @@ export default {
   },
   data() {
     return {
-      products: [] // Initialize an empty array
+      products: [], // Initialize an empty array
+      checkboxValue: null
     };
   },
   created() {
@@ -66,6 +67,9 @@ export default {
     this.filterType();
   },
   methods: {
+    checkboxSelected(value) {
+      this.checkboxValue = value;
+    },
     filterType() {
       const url = window.location.href;
       const parts = url.split("/");
@@ -105,9 +109,36 @@ export default {
         .catch(error => {
           console.error(error);
         });
-    }
+    },
 
-  }
+    checkboxClicked(value) {
+      this.checkboxValue = value; // Set the selected checkbox value
+    },
+
+    // Add a new method to make the API call
+    fetchFilteredProducts() {
+      if (this.checkboxValue !== null) {
+        // Make the API call using the selected checkbox value
+        axios
+          .get(`/api/products/category/${this.checkboxValue}`)
+          .then(response => {
+            this.products = response.data;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    },
+
+  },
+  watch: {
+    checkboxValue: {
+      handler() {
+        this.fetchFilteredProducts(); // Call the API when checkboxValue changes
+      },
+      immediate: true, // Call the API on initial load as well
+    },
+  },
 };
 </script>
   

@@ -12,7 +12,7 @@
           <tr v-for="category in categories" :key="category">
             <td>
               <label class="checkbox-label">
-                <input type="checkbox" v-model="categoryFilter" :value="category" />
+                <input type="checkbox" @change="checkboxChanged(category.id)" />
                 {{ category.name }}
                 <span class="checkmark"></span>
               </label>
@@ -91,6 +91,9 @@ export default {
     };
   },
   methods: {
+    checkboxChanged(value) {
+      this.$emit('checkbox-selected', value);
+    },
     filterType() {
       const url = window.location.href;
       const parts = url.split("/");

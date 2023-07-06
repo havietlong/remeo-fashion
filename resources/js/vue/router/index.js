@@ -16,6 +16,11 @@ const routes = [
         name: 'shoes' // Name for the products route
     },
     {
+        path: '/products/category/:id',
+        component: products,
+        name: 'shoesByCat' // Name for the products route
+    },
+    {
         path: '/products/bags',
         component: products,
         name: 'bags' // Name for the products route
