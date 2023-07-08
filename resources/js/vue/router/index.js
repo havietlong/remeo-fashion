@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import products from '../pages/products.vue';
+import login from '../pages/login.vue';
 import index from '../pages/index.vue';
 import product_detail from '../pages/product_detail.vue';
 import not_found from '../pages/not_found.vue';
@@ -50,6 +51,12 @@ const routes = [
         path: '/:pathMatch(.*)*', // Catch-all route for unknown paths
         component: not_found,
         name: 'not_found'
+        
+    },
+    {
+        path: '/user/login', // Catch-all route for unknown paths
+        component: login,
+        name: 'login'
         
     }
 ]

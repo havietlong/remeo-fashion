@@ -16,12 +16,17 @@ class CustomerController extends Controller
         return customers::orderBy('id','DESC')->get();
     }
 
+    public function validateLogin()
+    {
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        
     }
 
     /**

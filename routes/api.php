@@ -39,6 +39,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::get('/customers', [CustomerController::class, 'index']);
 Route::prefix('/customers')->group(function () {
     Route::post('/register', [CustomerController::class, 'store']);
+    Route::post('/login', [CustomerController::class, 'store']);
 });
 
 
