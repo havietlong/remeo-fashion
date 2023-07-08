@@ -19,36 +19,24 @@ class CustomerController extends Controller
     public function validateLogin(Request $request)
     {
         $credentials = $request->only('email', 'password');
-       
+
         // Retrieve the user record based on the provided email
         $user = customers::where('email', $credentials['email'])->first();
-        
+
         if (!$user) {
             // Invalid email or user not found
             return response()->json(['message' => 'Invalid email '], 401);
         }
-        
+
         // Compare the provided password with the hashed password stored in the user record
         if ($credentials['password'] !== $user->password) {
             // Invalid password
             return response()->json(['message' => 'Invalid password'], 401);
         }
-        
+
         // Login successful
         return response()->json(['message' => 'Login successful'], 200);
-        
-}
-    // Valid login credentials
-    // $numRows = 1; // Assuming login is successful
-    
-    // if ($numRows > 0 && $numRows == 1) {
-    //     // Login details are correct
-    //     return response()->json(['message' => 'Login successful'], 200);
-    // } else {
-    //     // Some error occurred during login validation
-    //     return response()->json(['message' => 'Error validating login'], 500);
-    // }
-    
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +50,19 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $credentials = $request->only('name', 'email', 'password', 'repeatPassword');
+        if ($credentials['password'] == $credentials['repeatPassword']) {
+            $newUser = new customers();
+            $newUser->name = $credentials['name'];
+            $newUser->email = $credentials['email'];
+            $newUser->password = $credentials['password'];
+            $newUser->role_id = 2;
+            $newUser->save();
+
+            return response()->json(['message' => 'Register successful'], 200);
+        } else {
+            return response()->json(['message' => 'passwords not matched'], 401);
+        }
     }
 
     /**

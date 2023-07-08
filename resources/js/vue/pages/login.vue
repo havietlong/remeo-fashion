@@ -48,10 +48,10 @@
           </div>
 
           <!-- Username input -->
-          <div class="form-outline mb-4">
+          <!-- <div class="form-outline mb-4">
             <input v-model="registerForm.username" type="text" id="registerUsername" class="form-control" />
             <label class="form-label" for="registerUsername">Username</label>
-          </div>
+          </div> -->
 
           <!-- Email input -->
           <div class="form-outline mb-4">
@@ -90,7 +90,7 @@
 
 <script>
 import axios from 'axios';
-
+import router from '../router';
 export default {
   data() {
     return {
@@ -101,7 +101,6 @@ export default {
       },
       registerForm: {
         name: '',
-        username: '',
         email: '',
         password: '',
         repeatPassword: ''
@@ -117,6 +116,9 @@ export default {
         .then(response => {
           // Handle the API response
           console.log(response.data);
+          if(response.data.message=='Login successful'){
+            router.push('/');
+          }
         })
         .catch(error => {
           // Handle any errors
@@ -127,10 +129,13 @@ export default {
       // Call the API with registerForm data
       // Replace the API_URL with your actual API endpoint
       axios
-        .post(API_URL, this.registerForm)
+        .post('/api/user/register', this.registerForm)
         .then(response => {
           // Handle the API response
           console.log(response.data);
+          if(response.data.message=='Register successful'){
+            router.push('/');
+          }
         })
         .catch(error => {
           // Handle any errors
