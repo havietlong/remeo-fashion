@@ -1,9 +1,4 @@
 <template>
-  <!-- Pills navs -->
-
-  <!-- Pills navs -->
-
-  <!-- Pills content -->
   <div class="login_total_container">
     <div class="tab-content">
       <div class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -11,38 +6,26 @@
           <a class="nav-link" :class="{ active: activeOption === 'login' }" @click="activeOption = 'login'">Login</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" :class="{ active: activeOption === 'register' }"
-            @click="activeOption = 'register'">Register</a>
+          <a class="nav-link" :class="{ active: activeOption === 'register' }" @click="activeOption = 'register'">Register</a>
         </li>
       </div>
       <div class="tab-pane fade" :class="{ show: activeOption === 'login', active: activeOption === 'login' }"
         id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-        <form>
+        <form @submit.prevent="submitLoginForm">
           <!-- Login form content -->
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input type="email" id="loginName" class="form-control" placeholder="Email" />
+            <input v-model="loginForm.email" type="email" id="loginName" class="form-control" placeholder="Email" />
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-4">
-            <input type="password" id="loginPassword" class="form-control" placeholder="Password" />
+            <input v-model="loginForm.password" type="password" id="loginPassword" class="form-control" placeholder="Password" />
           </div>
 
           <!-- 2 column grid layout -->
           <div class="row_login mb-4">
-            <div class="col-md-6 d-flex justify-content-center">
-              <!-- Checkbox -->
-              <div class="form-check mb-3 mb-md-0">
-                <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
-                <label class="form-check-label" for="loginCheck"> Remember me </label>
-              </div>
-            </div>
-
-            <div class="col-md-6 d-flex justify-content-center">
-              <!-- Simple link -->
-              <a href="#!">Forgot password?</a>
-            </div>
+            <!-- Checkbox and Forgot password link -->
           </div>
 
           <!-- Submit button -->
@@ -56,38 +39,35 @@
       </div>
       <div class="tab-pane fade" :class="{ show: activeOption === 'register', active: activeOption === 'register' }"
         id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-        <form>
+        <form @submit.prevent="submitRegisterForm">
           <!-- Register form content -->
-          
-         
-
           <!-- Name input -->
           <div class="form-outline mb-4">
-            <input type="text" id="registerName" class="form-control" />
+            <input v-model="registerForm.name" type="text" id="registerName" class="form-control" />
             <label class="form-label" for="registerName">Name</label>
           </div>
 
           <!-- Username input -->
           <div class="form-outline mb-4">
-            <input type="text" id="registerUsername" class="form-control" />
+            <input v-model="registerForm.username" type="text" id="registerUsername" class="form-control" />
             <label class="form-label" for="registerUsername">Username</label>
           </div>
 
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input type="email" id="registerEmail" class="form-control" />
+            <input v-model="registerForm.email" type="email" id="registerEmail" class="form-control" />
             <label class="form-label" for="registerEmail">Email</label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-4">
-            <input type="password" id="registerPassword" class="form-control" />
+            <input v-model="registerForm.password" type="password" id="registerPassword" class="form-control" />
             <label class="form-label" for="registerPassword">Password</label>
           </div>
 
           <!-- Repeat Password input -->
           <div class="form-outline mb-4">
-            <input type="password" id="registerRepeatPassword" class="form-control" />
+            <input v-model="registerForm.repeatPassword" type="password" id="registerRepeatPassword" class="form-control" />
             <label class="form-label" for="registerRepeatPassword">Repeat password</label>
           </div>
 
@@ -101,29 +81,71 @@
           </div>
 
           <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+          <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
         </form>
       </div>
     </div>
-    <!-- Pills content -->
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      activeOption: 'login'
+      activeOption: 'login',
+      loginForm: {
+        email: '',
+        password: ''
+      },
+      registerForm: {
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        repeatPassword: ''
+      }
     };
+  },
+  methods: {
+    submitLoginForm() {
+      // Call the API with loginForm data
+      // Replace the API_URL with your actual API endpoint
+      axios
+        .post("/api/user/login", this.loginForm)
+        .then(response => {
+          // Handle the API response
+          console.log(response.data);
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error(error);
+        });
+    },
+    submitRegisterForm() {
+      // Call the API with registerForm data
+      // Replace the API_URL with your actual API endpoint
+      axios
+        .post(API_URL, this.registerForm)
+        .then(response => {
+          // Handle the API response
+          console.log(response.data);
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error(error);
+        });
+    }
   }
 };
 </script>
 
 <style scoped>
-.login_total_container{
+/* CSS styles here */
+.login_total_container {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 </style>
