@@ -106,7 +106,9 @@
        </router-link>
     </button>
     <button class="user-button" >
-      <i class="bx bx-user-circle"></i>
+        <router-link to="/user/cart">
+        <i class='bx bx-shopping-bag'></i>
+    </router-link>
     </button>
   </div>
     </div>
