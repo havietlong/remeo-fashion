@@ -13,12 +13,25 @@ class CartController extends Controller
     public function index()
     {
         $cartItems = session('cart', []);
-
         return response()->json([
             'cartItems' => $cartItems
         ]);
     }
 
+    public function indexQuantity()
+    {
+        $cartItems = session('cart', []);
+
+        $totalQuantity = 0;
+    
+        // Iterate over cartItems array and accumulate quantities
+        foreach ($cartItems as $cartItem) {
+            $quantity = $cartItem['quantity'];
+            $totalQuantity += $quantity;
+        }
+    
+        return $totalQuantity;
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -33,14 +46,32 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $item = $request->input('item');
-        $quantity = $request->input('quantity'); // Get the quantity from the request
+        $quantity = $request->input('quantity');
 
-        // Add the item and quantity to the cart in the session
+        // Retrieve the current cart items from the session or initialize an empty array if it doesn't exist
         $cartItems = $request->session()->get('cart', []);
-        $cartItems[] = [
-            'item' => $item,
-            'quantity' => $quantity // Include the quantity in the cart item
-        ];
+
+        // Check if the item already exists in the cart
+        $existingItemKey = null;
+        foreach ($cartItems as $key => $cartItem) {
+            if ($cartItem['item'] === $item) {
+                $existingItemKey = $key;
+                break;
+            }
+        }
+
+        // If the item exists, update its quantity by adding the new quantity
+        if ($existingItemKey !== null) {
+            $cartItems[$existingItemKey]['quantity'] += $quantity;
+        } else {
+            // If the item doesn't exist, add it as a new item in the cart
+            $cartItems[] = [
+                'item' => $item,
+                'quantity' => $quantity
+            ];
+        }
+
+        // Store the updated cart array back into the session
         $request->session()->put('cart', $cartItems);
 
         return response()->json([

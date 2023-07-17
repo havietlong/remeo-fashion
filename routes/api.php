@@ -29,18 +29,21 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/cart', [CartController::class, 'index']);
     Route::prefix('/cart')->group(function () {
         Route::post('/add', [CartController::class, 'store']);
+        Route::get('/quantity', [CartController::class, 'indexQuantity']);
         Route::put('/update/{id}', [CartController::class, 'update']);
-        Route::delete('/delete/{id}', [CartController::class, 'destroy']); 
+        Route::delete('/delete/{id}', [CartController::class, 'destroy']);
         Route::get('/destroy_session', [CartController::class, 'destroySession']);
+    });
+
+    // CUSTOMERS
+    Route::get('/user', [CustomerController::class, 'index']);
+    Route::prefix('/user')->group(function () {
+        Route::post('/register', [CustomerController::class, 'store']);
+        Route::post('/login', [CustomerController::class, 'validateLogin']);
     });
 });
 
-// CUSTOMERS
-Route::get('/customers', [CustomerController::class, 'index']);
-Route::prefix('/user')->group(function () {
-    Route::post('/register', [CustomerController::class, 'store']);
-    Route::post('/login', [CustomerController::class, 'validateLogin']);
-});
+
 
 
 // PRODUCTS
@@ -48,7 +51,7 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::prefix('/products')->group(function () {
     Route::get('/type/{id}', [ProductController::class, 'showProdByTypes']);
     Route::get('/category/{id}', [ProductController::class, 'showProdByCats']);
-  
+
 
     Route::post('/add', [ProductController::class, 'store']);
     Route::get('/details/{id}', [ProductController::class, 'show']);
@@ -60,8 +63,8 @@ Route::prefix('/products')->group(function () {
 
 Route::prefix('/categories')->group(function () {
     Route::get('/{id}', [CategoriesController::class, 'showCatByTypes']);
-   
-  
+
+
 
     Route::post('/add', [ProductController::class, 'store']);
     Route::get('/details/{id}', [ProductController::class, 'show']);

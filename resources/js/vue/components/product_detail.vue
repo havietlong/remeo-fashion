@@ -51,6 +51,7 @@ export default {
 				.post(`/api/cart/add`, { item, quantity: this.quantity })
 				.then(response => {
 					this.cartItems = response.data.cartItems;
+					window.location.reload();
 				})
 				.catch(error => {
 					console.error(error);

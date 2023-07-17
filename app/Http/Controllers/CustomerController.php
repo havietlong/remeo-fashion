@@ -13,7 +13,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return customers::orderBy('id', 'DESC')->get();
+        $userInfo = session('user', []);
+        return response()->json([
+            'user' => $userInfo
+        ]);
     }
 
     public function validateLogin(Request $request)
@@ -33,9 +36,13 @@ class CustomerController extends Controller
             // Invalid password
             return response()->json(['message' => 'Invalid password'], 401);
         }
-
+        $this->createUserSession($user);
         // Login successful
         return response()->json(['message' => 'Login successful'], 200);
+    }
+
+    public function createUserSession($user){
+        session(['user' => $user]);
     }
 
     /**

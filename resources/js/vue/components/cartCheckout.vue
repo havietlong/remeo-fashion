@@ -6,27 +6,32 @@
                 <thead>
                     <tr>
                         <th>Sản phẩm</th>
+                        <th>Tên</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
                         <th>Tổng</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-for="(product, index) in products" :key="index">
                         <td>
                             <img class="product-image_cart"
                                 src="https://www.charleskeith.vn/dw/image/v2/BCWJ_PRD/on/demandware.static/-/Sites-vn-products/default/dw125e5bcc/images/hi-res/2017-L3-CK6-10840105-01-1.jpg?sw=208&sh=278"
                                 alt="Sản phẩm 1">
+                        </td>
+                        <td>
                             <div class="product-info">
-                                <span class="product-image_cart">Ví cầm tay chữ nhật Quilted</span>
+                                <span class="product-image_cart">{{ product.item.name }}</span>
 
                             </div>
                         </td>
-                        <td>1.400.000VND</td>
+                        <td>{{ product.item.price }}</td>
                         <td>
-                            <input type="number" min="1" value="1" class="quantity-input">
+                            <input type="number" min="1" :value="product.quantity" class="quantity-input"
+                                @input="updateQuantity(index, $event.target.value)">
+
                         </td>
-                        <td>1.400.000đ</td>
+                        <td>{{ calculateTotalPrice(product) }}</td>
                     </tr>
                     <!-- <tr>
                         <td>
@@ -48,19 +53,42 @@
             </table>
         </div>
         <div class="right-section">
+            <h2>Thanh toán</h2>
             <div class="promo-code">
                 <input type="text" placeholder="Nhập mã khuyến mãi" class="promo-input">
                 <button class="apply-button">Áp dụng</button>
             </div>
-            <button class="checkout-button">Tiến hành thanh toán</button>
+            <form action="checkout" method="GET" class="checkOutForm" >
+                <div class="fillInCheckOut">
+                    <input type="text" style="width:45%" id="full-name" name="full-name" required placeholder="Chủ thẻ"
+                        class="promo-input">
+
+
+                    <input type="text" style="width:36%" id="credit-card" name="credit-card" required
+                        placeholder="Thông tin thẻ thanh toán" class="promo-input">
+
+                    <input type="text" id="expiration-date" name="expiration-date" required placeholder="Ngày hết hạn"
+                        class="promo-input">
+
+                    <input type="text" id="cvv" name="cvv" required placeholder="Mã CVV" class="promo-input">
+                </div>
+
+                <button type="submit" class="checkout-button">Tiến hành thanh toán</button>
+            </form>
+
         </div>
     </div>
 </template>
 <style scoped>
+.checkOutForm input {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
 .container_cart {
     display: flex;
     margin-bottom: 2cm;
-    margin-top: 1cm
+    margin-top: 1cm;
 }
 
 .left-section {
@@ -110,7 +138,7 @@
     width: 50%;
     padding-left: 1cm;
     padding-right: 1cm;
-    margin-top: 1.8cm
+    /* margin-top: 1.8cm; */
 }
 
 .promo-code {
@@ -143,3 +171,50 @@
     cursor: pointer;
 }
 </style>
+
+
+<script >
+import axios from 'axios';
+export default {
+    data() {
+        return {
+            products: []
+        }
+    },
+    created() {
+        this.fetchProducts();
+    },
+    methods: {
+        updateQuantity(index, newQuantity) {
+            this.products[index].quantity = newQuantity;
+        }
+        ,
+        fetchProducts() {
+            axios
+                .get(`/api/cart`)
+                .then(response => {
+                    const cartItems = response.data.cartItems;
+                    const products = Object.values(cartItems).map(item => {
+                        return {
+                            item: item.item,
+                            quantity: item.quantity
+                        };
+                    });
+                    this.products = products;
+                    console.log(this.products);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+        calculateTotalPrice(product) {
+            return (product.item.price * product.quantity).toFixed(2); // Calculate the total price
+        }
+    },
+    computed: {
+        totalPrice() {
+            return this.products.reduce((acc, product) => acc + (product.item.price * product.quantity), 0).toFixed(2);
+        }
+    }
+}
+</script>
