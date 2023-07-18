@@ -112,9 +112,9 @@ class CartController extends Controller
         //
     }
 
-    public function destroySession(Request $request)
+    public function destroySessionCart(Request $request)
     {
-        session()->flush();
-        return Redirect::route('home')->with('success', 'Session destroyed successfully.');
+        $request->session('cart')->flush(); // Flush all session data
+    return redirect()->route('home')->with('success', 'Session destroyed successfully.');
     }
 }

@@ -19,10 +19,8 @@
                         </div>
                         <div class="left-content">
                             <div class="image-with-text">
-                                <img
-                                    src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw62befb9f/images/megamenu/2023/CharlesKeith_MegaMenu-Shoes_week20-1-500x667.jpg"
-                                    alt="Image 1"
-                                />
+                                <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw62befb9f/images/megamenu/2023/CharlesKeith_MegaMenu-Shoes_week20-1-500x667.jpg"
+                                    alt="Image 1" />
                                 <p>GIÀY ĐẾ BỆT</p>
                             </div>
                         </div>
@@ -42,10 +40,8 @@
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
-                            <img
-                                src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dwac3ec366/images/megamenu/2023/CharlesKeith_MegaMenu-Bags_week22-1-500x667.jpg"
-                                alt="Image 1"
-                            />
+                            <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dwac3ec366/images/megamenu/2023/CharlesKeith_MegaMenu-Bags_week22-1-500x667.jpg"
+                                alt="Image 1" />
                             <p>TÚI TOTE</p>
                         </div>
                     </div>
@@ -63,10 +59,8 @@
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
-                            <img
-                                src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw2c1cea2f/images/megamenu/2023/CharlesKeith_MegaMenu-Wallets_week14-1-500x667.jpg"
-                                alt="Image 1"
-                            />
+                            <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw2c1cea2f/images/megamenu/2023/CharlesKeith_MegaMenu-Wallets_week14-1-500x667.jpg"
+                                alt="Image 1" />
                             <p>VÍ NGẮN</p>
                         </div>
                     </div>
@@ -74,9 +68,7 @@
             </div>
             <div class="dropdown">
                 <button class="dropbtn">
-                    <router-link to="/products/sunglasses"
-                        >Kính Mắt</router-link
-                    >
+                    <router-link to="/products/sunglasses">Kính Mắt</router-link>
                 </button>
                 <div class="dropdown-content">
                     <div class="right-content">
@@ -87,10 +79,8 @@
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
-                            <img
-                                src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw2c1cea2f/images/megamenu/2023/CharlesKeith_MegaMenu-Wallets_week14-1-500x667.jpg"
-                                alt="Image 1"
-                            />
+                            <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw2c1cea2f/images/megamenu/2023/CharlesKeith_MegaMenu-Wallets_week14-1-500x667.jpg"
+                                alt="Image 1" />
                             <p>VÍ NGẮN</p>
                         </div>
                     </div>
@@ -98,9 +88,7 @@
             </div>
             <div class="dropdown">
                 <button class="dropbtn">
-                    <router-link to="/products/jewellery"
-                        >Trang Sức</router-link
-                    >
+                    <router-link to="/products/jewellery">Trang Sức</router-link>
                 </button>
                 <div class="content-wrapper">
                     <div class="dropdown-content">
@@ -112,10 +100,8 @@
                         </div>
                         <div class="left-content">
                             <div class="image-with-text">
-                                <img
-                                    src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw62befb9f/images/megamenu/2023/CharlesKeith_MegaMenu-Shoes_week20-1-500x667.jpg"
-                                    alt="Image 1"
-                                />
+                                <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw62befb9f/images/megamenu/2023/CharlesKeith_MegaMenu-Shoes_week20-1-500x667.jpg"
+                                    alt="Image 1" />
                                 <p>GIÀY ĐẾ BỆT</p>
                             </div>
                         </div>
@@ -125,6 +111,9 @@
         </div>
         <div class="right_user_nav">
             <button class="user-button">
+                <a v-if="userSessionExists" href="/api/user/destroy_session">
+                    <i class="bx bx-log-out"></i>
+                </a>
                 <router-link v-if="userSessionExists" to="/user/profile">
                     <i class="bx bxs-user"></i>
                 </router-link>
@@ -178,7 +167,7 @@ export default {
     data() {
         return {
             quantity: 0,
-            userSessionExists: false
+            userSessionExists: false,
         };
     },
     created() {
@@ -200,14 +189,17 @@ export default {
         },
         checkUserLogin() {
             // Make the API call using the selected checkbox value
-            axios
-                .get(`/api/user`)
-                .then((response) => {
-                    this.userSessionExists = true;
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            axios.get(`/api/user`).then((response) => {
+                console.log(response);
+                    const responseData = response.data; // The entire response object
+                    if (responseData.user && Object.keys(responseData.user).length > 0) {
+                        this.userSessionExists = true;
+                    }
+                else {
+                    // Handle the case when the response has more than one data item
+                    console.error("Response contains more than one data item.");
+                }
+            });
         },
     },
 };

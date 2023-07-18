@@ -58,7 +58,7 @@
                 <input type="text" placeholder="Nhập mã khuyến mãi" class="promo-input">
                 <button class="apply-button">Áp dụng</button>
             </div>
-            <form action="checkout" method="GET" class="checkOutForm" >
+            <form action="checkout" method="get" class="checkOutForm" >
                 <div class="fillInCheckOut">
                     <input type="text" style="width:45%" id="full-name" name="full-name" required placeholder="Chủ thẻ"
                         class="promo-input">
@@ -71,6 +71,12 @@
                         class="promo-input">
 
                     <input type="text" id="cvv" name="cvv" required placeholder="Mã CVV" class="promo-input">
+                </div>
+                <div class="productInCart_checkOut" v-for="(product, index) in products" :key="index" >
+                    <input type="text" name="productQuantity" :value="product.quantity" hidden>
+                    <input type="text" name="productID" :value="product.item.id" hidden>
+                    <input type="text" name="productPrice" :value="product.item.price" hidden>
+                    <input type="text" name="productTotalPrice" :value="calculateTotalPrice(product)" hidden>
                 </div>
 
                 <button type="submit" class="checkout-button">Tiến hành thanh toán</button>

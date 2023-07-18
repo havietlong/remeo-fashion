@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\customers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CustomerController extends Controller
 {
@@ -103,4 +104,11 @@ class CustomerController extends Controller
     {
         //
     }
+
+    public function destroySessionUser(Request $request)
+    {
+        $request->session('user')->flush();
+        return Redirect::route('home')->with('success', 'Session destroyed successfully.');
+    }
+    
 }

@@ -6,6 +6,7 @@ import index from '../pages/index.vue';
 import product_detail from '../pages/product_detail.vue';
 import not_found from '../pages/not_found.vue';
 import successPurchase from '../pages/successPurchase.vue';
+import formCheckOut from '../components/formCheckOut.vue';
 
 const routes = [
     {
@@ -68,9 +69,10 @@ const routes = [
     },
     {
         path: '/user/checkOut', // Catch-all route for unknown paths
-        component: successPurchase,
-        name: 'successPurchase'
+        component: formCheckOut,
+        name: 'formCheckOut'
     }
+      
 ]
 
 const router = createRouter({

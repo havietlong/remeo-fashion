@@ -4,7 +4,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomerController;
-
+use App\Http\Controllers\inVoiceController;
+use App\Http\Controllers\order_itemsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/quantity', [CartController::class, 'indexQuantity']);
         Route::put('/update/{id}', [CartController::class, 'update']);
         Route::delete('/delete/{id}', [CartController::class, 'destroy']);
-        Route::get('/destroy_session', [CartController::class, 'destroySession']);
+        Route::get('/destroy_session', [CartController::class, 'destroySessionCart']);
     });
 
     // CUSTOMERS
@@ -40,6 +41,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::prefix('/user')->group(function () {
         Route::post('/register', [CustomerController::class, 'store']);
         Route::post('/login', [CustomerController::class, 'validateLogin']);
+        Route::get('/destroy_session', [CustomerController::class, 'destroySessionUser']);
     });
 });
 
@@ -63,11 +65,14 @@ Route::prefix('/products')->group(function () {
 
 Route::prefix('/categories')->group(function () {
     Route::get('/{id}', [CategoriesController::class, 'showCatByTypes']);
-
-
-
     Route::post('/add', [ProductController::class, 'store']);
     Route::get('/details/{id}', [ProductController::class, 'show']);
     Route::put('/update/{id}', [ProductController::class, 'update']);
     Route::delete('/delete/{id}', [ProductController::class, 'destroy']);
+});
+
+//INVOICE 
+Route::prefix('/inVoice')->group(function () {
+    Route::post('/add', [order_itemsController::class, 'store']);
+    // Route::post('/add', [ordersController::class, 'store']);
 });
