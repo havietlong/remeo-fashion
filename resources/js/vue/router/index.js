@@ -7,6 +7,7 @@ import product_detail from '../pages/product_detail.vue';
 import not_found from '../pages/not_found.vue';
 import successPurchase from '../pages/successPurchase.vue';
 import formCheckOut from '../components/formCheckOut.vue';
+import manageOrder from '../pages/manageOrder.vue';
 
 const routes = [
     {
@@ -71,6 +72,11 @@ const routes = [
         path: '/user/checkOut', // Catch-all route for unknown paths
         component: formCheckOut,
         name: 'formCheckOut'
+    },
+    {
+        path: '/user/order', // Catch-all route for unknown paths
+        component: manageOrder,
+        name: 'manageOrder'
     },
     {
         path: '/user/successPurchase', // Catch-all route for unknown paths

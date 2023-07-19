@@ -4,7 +4,9 @@
   </div> -->
     <div class="navbar">
         <div class="left_user_nav">
-            <div class="charlie-keith">Charlie & Keith</div>
+            <router-link to="/">
+                <div class="charlie-keith">Charlie & Keith</div>
+            </router-link>
             <div class="dropdown">
                 <button class="dropbtn">
                     <router-link to="/products/shoes">Giày</router-link>
@@ -114,7 +116,7 @@
                 <a v-if="userSessionExists" href="/api/user/destroy_session">
                     <i class="bx bx-log-out"></i>
                 </a>
-                <router-link v-if="userSessionExists" to="/user/profile">
+                <router-link v-if="userSessionExists" to="/user/order">
                     <i class="bx bxs-user"></i>
                 </router-link>
                 <router-link v-else to="/user/login">
@@ -191,10 +193,10 @@ export default {
             // Make the API call using the selected checkbox value
             axios.get(`/api/user`).then((response) => {
                 console.log(response);
-                    const responseData = response.data; // The entire response object
-                    if (responseData.user && Object.keys(responseData.user).length > 0) {
-                        this.userSessionExists = true;
-                    }
+                const responseData = response.data; // The entire response object
+                if (responseData.user && Object.keys(responseData.user).length > 0) {
+                    this.userSessionExists = true;
+                }
                 else {
                     // Handle the case when the response has more than one data item
                     console.error("Response contains more than one data item.");
