@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\orders;
 use Illuminate\Http\Request;
 
 class ordersController extends Controller
@@ -11,7 +12,12 @@ class ordersController extends Controller
      */
     public function index()
     {
-        //
+        return orders::orderBy('id','DESC')->get();
+    }
+
+    public function latestIndex()
+    {
+        return orders::orderBy('id', 'DESC')->limit(1)->get();
     }
 
     /**
@@ -27,7 +33,13 @@ class ordersController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $newOrder = new orders();
+        $newOrder->customer_id = $request->input('user_id');
+        $newOrder->order_date = now();
+        $newOrder->order_price = $request->input('total_order');
+        $newOrder->save();
+    
+        return response("Successfully added to orders");
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\inVoiceController;
 use App\Http\Controllers\order_itemsController;
+use App\Http\Controllers\ordersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,6 +74,7 @@ Route::prefix('/categories')->group(function () {
 
 //INVOICE 
 Route::prefix('/inVoice')->group(function () {
-    Route::post('/add', [order_itemsController::class, 'store']);
-    // Route::post('/add', [ordersController::class, 'store']);
+    Route::post('/addOrder_items', [order_itemsController::class, 'store']);
+    Route::post('/addOrders', [ordersController::class, 'store']);
+    Route::get('/Orders', [ordersController::class, 'latestIndex']);
 });

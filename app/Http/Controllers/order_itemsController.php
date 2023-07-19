@@ -29,7 +29,7 @@ class order_itemsController extends Controller
     public function store(Request $request)
     {
         $newOrder_item = new order_items();
-        $newOrder_item->order_id = 1;
+        $newOrder_item->order_id = $request->input('order_id');
         $newOrder_item->product_id = $request->input('productID');
         $newOrder_item->quantity = $request->input('productQuantity');
         $newOrder_item->product_price = $request->input('productPrice');

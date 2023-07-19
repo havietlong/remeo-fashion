@@ -71,7 +71,13 @@ const routes = [
         path: '/user/checkOut', // Catch-all route for unknown paths
         component: formCheckOut,
         name: 'formCheckOut'
+    },
+    {
+        path: '/user/successPurchase', // Catch-all route for unknown paths
+        component: successPurchase,
+        name: 'successPurchase'
     }
+    
       
 ]
 
