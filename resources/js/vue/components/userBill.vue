@@ -106,7 +106,7 @@ export default {
                     },
                 })
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data);
                     this.products = response.data; // Assign retrieved data to the products array
                 })
                 .catch((error) => {

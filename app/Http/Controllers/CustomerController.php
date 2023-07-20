@@ -26,24 +26,39 @@ class CustomerController extends Controller
 
         // Retrieve the user record based on the provided email
         $user = customers::where('email', $credentials['email'])->first();
-
+        $role = $user->role_id;
         if (!$user) {
             // Invalid email or user not found
-            return response()->json(['message' => 'Invalid email '], 401);
+            return response()->json(['message' => 'Invalid email'], 401);
         }
 
         // Compare the provided password with the hashed password stored in the user record
-        if ($credentials['password'] !== $user->password) {
+        if ($credentials['password'] !== $user->password){
             // Invalid password
             return response()->json(['message' => 'Invalid password'], 401);
         }
+
+        if ($role == 2 || $role === '2') {
+            return response()->json(['message' => 'Login successful as Admin'], 200);
+            
+        $this->createAdminSession($user);
+        } else {
+            
+            // Login successful
+            return response()->json(['message' => 'Login successful'], 200);
+            
         $this->createUserSession($user);
-        // Login successful
-        return response()->json(['message' => 'Login successful'], 200);
+        }
     }
 
-    public function createUserSession($user){
+
+    public function createUserSession($user)
+    {
         session(['user' => $user]);
+    }
+    public function createAdminSession($user)
+    {
+        session(['admin' => $user]);
     }
 
     /**
@@ -110,5 +125,4 @@ class CustomerController extends Controller
         $request->session('user')->flush();
         return Redirect::route('home')->with('success', 'Session destroyed successfully.');
     }
-    
 }

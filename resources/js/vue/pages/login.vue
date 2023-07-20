@@ -115,9 +115,11 @@ export default {
         .post("/api/user/login", this.loginForm)
         .then(response => {
           // Handle the API response
-          console.log(response.data);
+          console.log(response);
           if(response.data.message=='Login successful'){
             router.push('/');
+          }else{
+            router.push('/admin')
           }
         })
         .catch(error => {

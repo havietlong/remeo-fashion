@@ -44,6 +44,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/login', [CustomerController::class, 'validateLogin']);
         Route::get('/destroy_session', [CustomerController::class, 'destroySessionUser']);
     });
+
 });
 
 
