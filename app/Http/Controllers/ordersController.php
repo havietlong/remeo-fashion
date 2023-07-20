@@ -10,10 +10,15 @@ class ordersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return orders::orderBy('id','DESC')->get();
+        $customer_id = $request->input('user_id');
+        $orders = orders::where('customer_id', $customer_id)
+            ->orderBy('id', 'DESC')
+            ->get();
+        return response()->json($orders);
     }
+
 
     public function latestIndex()
     {
@@ -38,7 +43,7 @@ class ordersController extends Controller
         $newOrder->order_date = now();
         $newOrder->order_price = $request->input('total_order');
         $newOrder->save();
-    
+
         return response("Successfully added to orders");
     }
 

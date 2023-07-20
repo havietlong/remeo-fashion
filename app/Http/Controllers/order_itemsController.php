@@ -10,9 +10,14 @@ class order_itemsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $order_id = $request->input('order_id');
+        $order_items = order_items::join('products', 'order_items.product_id', '=', 'products.id')
+            ->where('order_items.order_id', $order_id)
+            ->orderBy('order_items.id', 'DESC')
+            ->get();
+        return response()->json($order_items);
     }
 
     /**
@@ -35,10 +40,10 @@ class order_itemsController extends Controller
         $newOrder_item->product_price = $request->input('productPrice');
         $newOrder_item->product_quantity_price = $request->input('productTotalQuantityPrice');
         $newOrder_item->save();
-    
+
         return response("Successfully added to order_items");
     }
-    
+
 
     /**
      * Display the specified resource.

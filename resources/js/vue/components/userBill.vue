@@ -4,48 +4,38 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Loại yêu cầu</th>
-                    <th>Nội dung yêu cầu</th>
-                    <th>Người yêu cầu</th>
-                    <th>Người thực hiện</th>
-                    <th>Ghi chú</th>
-                    <th>Tiến độ xử lí</th>
+                    <th>Tình trạng</th>
+                    <th>Giá trị</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Loại 1</td>
-                    <td>Nội dung yêu cầu 1</td>
-                    <td>Người yêu cầu 1</td>
-                    <td>Người thực hiện 1</td>
-                    <td>Ghi chú 1</td>
+            <tbody v-for="product in products">
+                <tr @click="loadDataOrder_items(product.id)">
+                    <td>{{ product.id }}</td>
+                    <td>Đang xử lí</td>
                     <td>Đang xử lí</td>
                 </tr>
                 <tr>
-                    <td colspan="7">
+                    <td colspan="3">
                         <div class="panel">
                             <!-- Content of the panel goes here -->
-                            <h3>Panel content 1</h3>
-                            <p>Additional details can be added here.</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Loại 2</td>
-                    <td>Nội dung yêu cầu 2</td>
-                    <td>Người yêu cầu 2</td>
-                    <td>Người thực hiện 2</td>
-                    <td>Ghi chú 2</td>
-                    <td>Hoàn thành</td>
-                </tr>
-                <tr>
-                    <td colspan="7">
-                        <div class="panel">
-                            <!-- Content of the panel goes here -->
-                            <h3>Panel content 2</h3>
-                            <p>Additional details can be added here.</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Prod. Image</td>
+                                        <td>Name</td>
+                                        <td>Quantity</td>
+                                        <td>Quantity price</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="product in Order_items">
+                                        <td>Prod. Image</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td>{{ product.product_quantity_price }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
@@ -54,6 +44,19 @@
     </div>
 </template>
 <style scoped>
+.productsTab .panel {
+    display: none;
+}
+
+table {
+    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.1);
+}
+
+.productsTab {
+    padding: 50px;
+    border-radius: 15px;
+}
+
 .productsTab table {
     width: 100%;
     border-collapse: collapse;
@@ -76,17 +79,69 @@
 }
 </style>
 <script>
-import $ from 'jquery';
+import $ from "jquery";
 export default {
+    data() {
+        return {
+            products: [],
+            Order_items: []
+        };
+    },
+    created() {
+        this.fetchUserID();
+    },
     mounted() {
-        $(".productsTab tbody tr").each(function () {
-            $(this).next("tr").find(".panel").hide();
-        });
-
-        $(".productsTab tbody tr").click(function () {
+        $(".productsTab").on("click", "tbody tr", function () {
             var panel = $(this).next("tr").find(".panel");
             panel.slideToggle("slow");
         });
-    }
-}
+    },
+    methods: {
+        fetchOrders(user_id) {
+            console.log("user_id: " + user_id);
+            axios
+                .get("/api/inVoice/Order", {
+                    params: {
+                        user_id: user_id,
+                    },
+                })
+                .then((response) => {
+                    console.log(response);
+                    this.products = response.data; // Assign retrieved data to the products array
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        fetchUserID() {
+            // Make the API call using the selected checkbox value
+            axios.get(`/api/user`).then((response) => {
+                console.log(response);
+                const responseData = response.data; // The entire response object
+                if (
+                    responseData.user &&
+                    Object.keys(responseData.user).length > 0
+                ) {
+                    const user_id = responseData.user.id;
+                    this.fetchOrders(user_id);
+                } else {
+                    // Handle the case when the response has more than one data item
+                    console.error("Response contains more than one data item.");
+                }
+            });
+        },
+        loadDataOrder_items(order_id) {
+            console.log("order_id: " + order_id);
+            axios
+                .get(`/api/inVoice/Order_items`, {
+                    params: {
+                        order_id: order_id,
+                    },
+                })
+                .then((response) => {
+                    this.Order_items=response.data;
+                });
+        },
+    },
+};
 </script>
