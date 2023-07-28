@@ -114,7 +114,7 @@ class CartController extends Controller
 
     public function destroySessionCart(Request $request)
     {
-        $request->session('cart')->flush(); // Flush all session data
+        $request->session()->forget('cart'); // Flush all session data
     return redirect()->route('home')->with('success', 'Session destroyed successfully.');
     }
 }

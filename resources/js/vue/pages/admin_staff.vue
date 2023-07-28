@@ -1,16 +1,19 @@
 <template>
     <topBar />
     <sideBar />
-    <manageOrders style="position: relative;z-index: 0;" />
+    <manageStaff/>
+
+   
 </template>
 <script>
-import manageOrders from '../components/manageOrders.vue';
+
 import sideBar from '../components/sideBar.vue';
 import topBar from '../components/topBar.vue';
+import manageStaff from '../components/manageStaff.vue';
 export default {
     components: {
         sideBar,
-        manageOrders,
+        manageStaff,
         topBar
     },
     methods: {

@@ -10,6 +10,7 @@ import formCheckOut from '../components/formCheckOut.vue';
 import manageOrder from '../pages/manageOrder.vue';
 import staff_orders from '../pages/staff_orders.vue';
 import staff_shop from '../pages/staff_shop.vue';
+import admin_staff from '../pages/admin_staff.vue';
 
 const routes = [
     {
@@ -86,15 +87,21 @@ const routes = [
         name: 'successPurchase'
     },
     {
-        path: '/admin/orders', // Catch-all route for unknown paths
+        path: '/staff/orders', // Catch-all route for unknown paths
         component: staff_orders,
         name: 'staff_orders'
     },
     {
-        path: '/admin/shop', // Catch-all route for unknown paths
+        path: '/staff/shop', // Catch-all route for unknown paths
         component: staff_shop,
         name: 'staff_shop'
-    }
+    },
+    {
+        path: '/admin/staff', // Catch-all route for unknown paths
+        component: admin_staff,
+        name: 'admin_staff'
+    },
+  
     
     
       

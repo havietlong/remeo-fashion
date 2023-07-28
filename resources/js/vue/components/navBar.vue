@@ -15,9 +15,11 @@
                     <div class="dropdown-content">
                         <div class="right-content">
                             <b>Mua theo danh mục</b>
-                            <a href="#submenu1">Giày xăng đan</a>
-                            <a href="#submenu2">Giày cao gót</a>
-                            <a href="#submenu3">Giày đế bệt</a>
+                            <a @click="checkboxChanged(1)">Giày
+                                xăng
+                                đan</a>
+                                <a @click="checkboxChanged(2)">Giày cao gót</a>
+                                <a @click="checkboxChanged(3)">Giày đế bệt</a>
                         </div>
                         <div class="left-content">
                             <div class="image-with-text">
@@ -36,9 +38,9 @@
                 <div class="dropdown-content">
                     <div class="right-content">
                         <b>Mua theo danh mục</b>
-                        <a href="#submenu1">Túi clutch</a>
-                        <a href="#submenu2">Túi đeo chéo</a>
-                        <a href="#submenu3">Túi xách</a>
+                        <a @click="checkboxChanged(4)">Túi clutch</a>
+                        <a @click="checkboxChanged(5)">Túi đeo chéo</a>
+                        <a @click="checkboxChanged(6)">Túi xách</a>
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
@@ -56,8 +58,8 @@
                 <div class="dropdown-content">
                     <div class="right-content">
                         <b>Mua theo danh mục</b>
-                        <a href="#submenu1">Ví đựng thẻ</a>
-                        <a href="#submenu2">Ví dài</a>
+                        <a @click="checkboxChanged(7)">Ví đựng thẻ</a>
+                        <a @click="checkboxChanged(8)">Ví dài</a>
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
@@ -75,9 +77,9 @@
                 <div class="dropdown-content">
                     <div class="right-content">
                         <b>Mua theo danh mục</b>
-                        <a href="#submenu1">Kính gọng tròn</a>
-                        <a href="#submenu2">Kính gọng vuông</a>
-                        <a href="#submenu2">Kính gọng Chữ nhật</a>
+                        <a @click="checkboxChanged(10)">Kính gọng tròn</a>
+                        <a @click="checkboxChanged(9)">Kính gọng vuông</a>
+                        <a @click="checkboxChanged(11)">Kính gọng Chữ nhật</a>
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
@@ -96,9 +98,9 @@
                     <div class="dropdown-content">
                         <div class="right-content">
                             <b>Mua theo danh mục</b>
-                            <a href="#submenu1">Khuyên tai</a>
-                            <a href="#submenu2">Nhẫn</a>
-                            <a href="#submenu3">Vòng tay</a>
+                            <a @click="checkboxChanged(12)">Khuyên tai</a>
+                            <a @click="checkboxChanged(13)">Nhẫn</a>
+                            <a @click="checkboxChanged(14)">Vòng tay</a>
                         </div>
                         <div class="left-content">
                             <div class="image-with-text">
@@ -177,6 +179,9 @@ export default {
         this.checkUserLogin();
     },
     methods: {
+        checkboxChanged(value) {
+            this.$emit('checkbox-selected', value);
+        },
         fetchCartQuantity() {
             // Make the API call using the selected checkbox value
             axios
@@ -203,6 +208,7 @@ export default {
                 }
             });
         },
-    },
+    }
 };
+
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div class="mngForm_container">
     <div class="productsTab">
+     <h1>
+      Quản lí hóa đơn
+     </h1>
       <table>
         <thead>
           <tr>
@@ -73,16 +76,7 @@ export default {
     // this.loadDataOrder_items(); // Make sure you call this method when needed
   },
   methods: {
-    editProduct(productId) {
-      // Implement the edit functionality here
-      // For example, navigate to an edit product page with the given productId
-      console.log(`Editing product with ID: ${productId}`);
-    },
-    deleteProduct(productId) {
-      // Implement the delete functionality here
-      // For example, show a confirmation modal and delete the product if confirmed
-      console.log(`Deleting product with ID: ${productId}`);
-    },
+    
     toggleDetails(productId) {
       // If the clicked row's product is already selected, deselect it
       if (this.selectedProductId === productId) {

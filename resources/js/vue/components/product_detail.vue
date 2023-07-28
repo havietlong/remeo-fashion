@@ -8,14 +8,6 @@
 				</div>
 			</div>
 			<p>{{ product.description }}</p>
-			<div class="row">
-				<div class="col-md-6">
-					<label for="size">Kích cỡ</label>
-					<select id="size" name="size" class="form-control">
-						<option v-for="size in product.sizes" :key="size">{{ size }}</option>
-					</select>
-				</div>
-			</div>
 			<div class="product-count">
 				<label for="size">Số lượng</label>
 				<form action="#" class="display-flex">

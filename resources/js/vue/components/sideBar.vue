@@ -1,14 +1,27 @@
 <template>
   <div class="sideBar_container">
     <div class="sideNav" @mouseover="expandNav" @mouseleave="collapseNav">
-      <div class="shop">
-      <router-link to="/admin/shop">
-        <i class="bx bx-shopping-bag"></i>
-      </router-link>  
+      <div v-if="staffSession==true" class="shop">
+        <router-link to="/staff/shop">
+          <i class="bx bx-shopping-bag"></i>
+        </router-link>
       </div>
-      <div class="orders">
-        <i class="bx bx-receipt"></i>
+      <div v-if="staffSession==true" class="orders">
+        <router-link to="/staff/orders">
+          <i class="bx bx-receipt"></i>
+        </router-link>
       </div>
+      <div v-if="adminSession==true" class="staff">
+        <router-link to="/admin/staff">
+          <i class='bx bxs-user-detail'></i>
+        </router-link>
+      </div>
+      <div class="logOut">
+        <a href="/api/user/destroy_session">
+          <i class="bx bx-log-out"></i>
+        </a>
+      </div>
+     
     </div>
   </div>
 </template>
@@ -16,7 +29,14 @@
 <script>
 import $ from 'jquery';
 export default {
+  data() {
+      return {
+        staffSession:false,
+        adminSession:false
+      }
+    },
   methods: {
+    
     expandNav() {
       // Use jQuery to set the width of the .sideNav element when hovering
       $(".sideNav").animate({ width: "200px" }, 300);
@@ -25,12 +45,32 @@ export default {
       // Use jQuery to reset the width of the .sideNav element when leaving the hover
       $(".sideNav").animate({ width: "50px" }, 300);
     },
+    checkUserLogin() {
+            // Make the API call using the selected checkbox value
+            axios.get(`/api/user`).then((response) => {
+                console.log(response);
+                const responseData = response.data; // The entire response object
+                if (responseData.staff){
+                  this.staffSession=true;
+                  this.adminSession=false;
+                }else if(responseData.admin){
+                  this.adminSession=true;
+                  this.staffSession=false;
+                }
+                else {
+                    // Handle the case when the response has more than one data item
+                    console.error("Response contains more than one data item.");
+                }
+            });
+        },
   },
+  created(){
+    this.checkUserLogin();
+  }
 };
 </script>
 
 <style scoped>
-
 .sideNav {
   display: flex;
   flex-direction: column;

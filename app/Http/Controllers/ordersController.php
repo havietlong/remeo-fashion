@@ -15,9 +15,9 @@ class ordersController extends Controller
         $customer_id = $request->input('user_id');
         if (!isset($customer_id)) {
             $orders = orders::orderBy('id', 'DESC')
-            ->join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->join('users', 'orders.customer_id', '=', 'users.id')
             ->where('order_status','pending')
-            ->select('orders.id', 'orders.customer_id', 'customers.name', 'orders.order_price')
+            ->select('orders.id', 'orders.customer_id', 'users.name', 'orders.order_price')
             ->get();
             return response()->json($orders);
         } else {

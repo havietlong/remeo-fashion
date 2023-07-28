@@ -58,10 +58,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $newProduct = new products;
-        $newProduct->name = $request->products["name"];
-        $newProduct->price = $request->products["price"];
-        $newProduct->description = $request->products["description"];
-        $newProduct->product_type_id = $request->products["product_type_id"];
+        $newProduct->name = null;
+        $newProduct->price = null;
+        $newProduct->description = null;
+        $newProduct->product_type_id = $request->input("product_type_id");
+        $newProduct->product_categories_id = $request->input("product_category_id");
         $newProduct->save();
 
         return $newProduct;

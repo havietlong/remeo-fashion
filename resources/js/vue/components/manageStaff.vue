@@ -1,13 +1,13 @@
 <template>
   <div class="mngForm_container">
     <div class="productsTab">
-      <h1>Quản lí sản phẩm</h1>
-      <label style="cursor: pointer;" @click="createNewProduct(1,1)">create new</label>
+      <h1>Quản lí nhân viên</h1>
+      <label style="cursor: pointer;" @click="createNewEmployee()">create new</label>
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th colspan="2">Sản phẩm</th>
+            <th colspan="2">Tên</th>
             <th>Lệnh</th>
           </tr>
         </thead>
@@ -18,7 +18,7 @@
             <td>{{ product.order_price }}</td>
             <td>
               
-              <button @click="deleteProduct(product.id)">Xóa</button>
+              <button @click="deleteStaff(product.id)">Xóa</button>
               
             </td>
           </tr>
@@ -27,43 +27,28 @@
               <div class="panel">
                 <form @submit.prevent="sendForm(product)">
                   <!-- Form content goes here -->
-                  <label for="name">Tên sản phẩm:</label>
+                  <label for="name">Tên:</label>
                   <input type="text" id="name" name="name" v-model="productFormData.name"
                     :placeholder="`${product.name}`">
 
-                  <label for="name">Giá sản phẩm:</label>
-                  <input type="text" id="price" name="price" v-model="productFormData.price"
-                    :placeholder="`${product.price}`">
+                  <label for="name">Email:</label>
+                  <input type="text" id="email" name="email" v-model="productFormData.email"
+                    :placeholder="`${product.email}`">
 
-                  <label for="description">Mô tả:</label>
-                  <textarea rows="20" id="description" name="description" v-model="productFormData.description"
-                    :placeholder="`${product.description}`"></textarea>
+                    <label for="name">Mật khẩu:</label>
+                  <input type="text" id="password" name="password" v-model="productFormData.password"
+                    :placeholder="`${product.password}`">
 
-                  <label for="image_link">Link hình ảnh:</label>
-                  <input type="text" id="image_link" v-model="productFormData.image_link"
-                    :placeholder="`${product.image_link}`" name="image_link">
-
-                  <label for="product_type_id">Loại sản phẩm:</label>
-                  <select @change="loadCategory" v-model="productFormData.product_type_id" id="product_type"
-                    name="product_type">
-                    <option value="1">Shoes</option>
-                    <option value="2">Bags</option>
-                    <option value="3">Wallets</option>
-                    <option value="4">Sunglasses</option>
-                    <option value="5">Jewellery</option>
-                  </select>
-
-                  <input type="hidden" :name="'product_category_id_dummy_' + product.id"
-                    :value="productFormData.product_category_id" />
-
-                  <label for="product_category">Danh mục sản phẩm:</label>
-                  <select v-model="productFormData.product_category_id" id="product_category" name="product_category_id">
-                    <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
-                    </option>
+                  <label for="product_type_id">Vai trò:</label>
+                  <select @change="loadCategory" v-model="productFormData.role" id="role_id"
+                    name="role_id">
+                    <option value="1">Khách hàng</option>
+                    <option value="2">Nhân viên</option>
+                    <option value="3">Admin</option>
                   </select>
 
                   <button type="submit">Lưu</button>
-               
+            
                 </form>
 
               </div>
@@ -78,7 +63,7 @@
 </template>
 
 <script>
-import $ from 'jquery';
+import $ from "jquery";
 export default {
   data() {
     return {
@@ -90,7 +75,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchProducts();
+    this.fetchStaffs();
     $(".productsTab").on("click", "tbody tr", function () {
       var panel = $(this).next("tr").find(".panel");
       panel.slideToggle("slow");
@@ -98,12 +83,9 @@ export default {
     // this.loadDataOrder_items(); // Make sure you call this method when needed
   },
   methods: {
-    createNewProduct(product_type_id,product_category_id) {
+    createNewEmployee() {
             axios
-                .post(`/api/products/add`, {
-                  product_type_id,
-                  product_category_id,
-                })
+                .post(`/api/admin/add`)
                 .then((response) => {
                     if (response) {
                       window.location.reload();
@@ -136,9 +118,9 @@ export default {
         this.selectedProductId = productId;
       }
     },
-    fetchProducts() {
+    fetchStaffs() {
       axios
-        .get("/api/products")
+        .get("/api/staff")
         .then((response) => {
           console.log(response);
           // Create a new array of products with an additional "order_id" property
@@ -148,9 +130,9 @@ export default {
           console.error(error);
         });
     },
-    deleteProduct(product_id) {
+    deleteStaff(product_id) {
       axios
-        .delete(`/api/staff/delete/${product_id}`)
+        .delete(`/api/admin/delete/${product_id}`)
         .then((response) => {
           console.log(response);
           // Create a new array of products with an additional "order_id" property
@@ -163,18 +145,16 @@ export default {
     },
     sendForm(product) {
       // Use the user's input directly from the productFormData object
-      const productData = {
+      const staffData = {
         name: this.productFormData.name,
-        price: this.productFormData.price,
-        description: this.productFormData.description,
-        image_link: this.productFormData.image_link,
-        product_type_id: this.productFormData.product_type_id,
-        product_category_id: this.$el.querySelector(`input[name="product_category_id_dummy_${product.id}"]`).value,
+        email: this.productFormData.email,
+        password: this.productFormData.password,
+        role_id: this.productFormData.role,
       };
-      console.log(productData);
+      console.log(staffData);
       
       axios
-        .put(`/api/staff/modify/${product.id}`, productData)
+        .put(`/api/admin/modify/${product.id}`,staffData)
         .then((response) => {
           console.log(response);
           window.location.reload();
@@ -211,7 +191,7 @@ table {
   padding: 50px;
   border-radius: 15px;
   position: relative;
-  left: 50px;
+  left: 20px;
   top: 30px;
 }
 

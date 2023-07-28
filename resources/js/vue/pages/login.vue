@@ -118,8 +118,11 @@ export default {
           console.log(response);
           if(response.data.message=='Login successful'){
             router.push('/');
-          }else{
-            router.push('/admin/orders');
+          }else if(response.data.message=='Login successful as Admin'){
+            router.push('/admin/staff');
+          }
+          else{
+            router.push('/staff/orders');
           }
         })
         .catch(error => {

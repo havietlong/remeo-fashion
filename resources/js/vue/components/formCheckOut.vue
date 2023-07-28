@@ -110,6 +110,8 @@ export default {
                 .then((response) => {
                     if (response.data == "Successfully added to order_items") {
                         window.location.href = "/user/successPurchase";
+                        axios
+                            .get(`/api/cart/destroy_session`)
                     }
                 })
                 .catch((error) => {

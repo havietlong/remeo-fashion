@@ -9,12 +9,19 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>
+              <label class="checkbox-label">
+                <input type="radio" name="option" @change="checkboxChanged(999)" />
+                Tất Cả
+              </label>
+            </td>
+          </tr>
           <tr v-for="category in categories" :key="category">
             <td>
               <label class="checkbox-label">
-                <input type="checkbox" @change="checkboxChanged(category.id)" />
+                <input type="radio" name="option" @change="checkboxChanged(category.id)" />
                 {{ category.name }}
-                <span class="checkmark"></span>
               </label>
             </td>
           </tr>
@@ -22,63 +29,7 @@
       </table>
     </div>
 
-    <!-- Filter by size -->
-    <br />
-    <table class="filter-table">
-          <thead>
-            <tr>
-              <th>Kích thước</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <label class="checkbox-label">
-                  <input type="checkbox">
-                  36
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="checkbox-label">
-                  <input type="checkbox">
-                  37
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="checkbox-label">
-                  <input type="checkbox">
-                  37
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="checkbox-label">
-                  <input type="checkbox">
-                  38
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="checkbox-label">
-                  <input type="checkbox">
-                  39
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
+   
   </div>
 </template>
 

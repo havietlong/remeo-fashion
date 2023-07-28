@@ -23,7 +23,10 @@ class CategoriesController extends Controller
     {
         //
     }
-    
+    public function showCatAll(){
+        $categories = product_categories::get();
+        return response()->json($categories);
+    }
     public function showCatByTypes(string $parent_id){
         
         $categories = product_categories::where('product_type_id', $parent_id)->get();

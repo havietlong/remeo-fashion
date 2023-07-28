@@ -3,8 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\inVoiceController;
+use App\Http\Controllers\usersController;
 use App\Http\Controllers\order_itemsController;
 use App\Http\Controllers\ordersController;
 use Illuminate\Http\Request;
@@ -38,12 +37,15 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     // CUSTOMERS
-    Route::get('/user', [CustomerController::class, 'index']);
+    Route::get('/user', [usersController::class, 'index']);
     Route::prefix('/user')->group(function () {
-        Route::post('/register', [CustomerController::class, 'store']);
-        Route::post('/login', [CustomerController::class, 'validateLogin']);
-        Route::get('/destroy_session', [CustomerController::class, 'destroySessionUser']);
+        Route::post('/register', [usersController::class, 'store']);
+        Route::post('/login', [usersController::class, 'validateLogin']);
+        Route::get('/destroy_session', [usersController::class, 'destroySessionUser']);
     });
+
+    
+    
 
 });
 
@@ -82,9 +84,18 @@ Route::prefix('/inVoice')->group(function () {
     Route::get('/Order_items', [order_itemsController::class, 'index']);
 });
 
+//STAFF
+Route::get('/staff', [usersController::class, 'staffIndex']);
 Route::prefix('/staff')->group(function () {
     Route::put('/verify/{id}', [ordersController::class, 'verifyOrder']);
     Route::put('/modify/{id}', [ProductController::class, 'modifyProduct']);
     Route::delete('/delete/{id}', [ProductController::class, 'destroy']);
+});
+
+Route::get('/admin', [usersController::class, 'index']);
+Route::prefix('/admin')->group(function () {
+    Route::put('/modify/{id}', [usersController::class, 'modifyStaff']);
+    Route::delete('/delete/{id}', [usersController::class, 'destroy']);
+    Route::post('/add', [usersController::class, 'addNewEmployee']);
 });
 

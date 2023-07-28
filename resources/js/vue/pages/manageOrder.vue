@@ -1,6 +1,6 @@
 <template>
 <navBar/>
-<userBill/>
+<userbill/>
 <footerBar/>
 </template>
 
