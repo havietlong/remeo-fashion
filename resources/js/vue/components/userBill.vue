@@ -11,8 +11,8 @@
             <tbody v-for="product in products">
                 <tr @click="loadDataOrder_items(product.id)">
                     <td>{{ product.id }}</td>
-                    <td>Đang xử lí</td>
-                    <td>Đang xử lí</td>
+                    <td>{{ product.order_status }}</td>
+                    <td>{{ product.order_price }}</td>
                 </tr>
                 <tr>
                     <td colspan="3">

@@ -81,3 +81,10 @@ Route::prefix('/inVoice')->group(function () {
     Route::get('/Order', [ordersController::class, 'index']);
     Route::get('/Order_items', [order_itemsController::class, 'index']);
 });
+
+Route::prefix('/staff')->group(function () {
+    Route::put('/verify/{id}', [ordersController::class, 'verifyOrder']);
+    Route::put('/modify/{id}', [ProductController::class, 'modifyProduct']);
+    Route::delete('/delete/{id}', [ProductController::class, 'destroy']);
+});
+

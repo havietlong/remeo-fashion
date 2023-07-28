@@ -194,7 +194,7 @@ export default {
             axios.get(`/api/user`).then((response) => {
                 console.log(response);
                 const responseData = response.data; // The entire response object
-                if (responseData.user && Object.keys(responseData.user).length > 0) {
+                if (responseData.user && Object.keys(responseData.user).length > 0 && response) {
                     this.userSessionExists = true;
                 }
                 else {

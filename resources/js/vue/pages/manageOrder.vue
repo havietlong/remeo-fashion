@@ -7,12 +7,12 @@
 <script>
 import navBar from '../components/navBar.vue';
 import footerBar from '../components/footerBar.vue';
-import userBill from '../components/userBill.vue';
+import userbill from '../components/userbill.vue';
 export default{
     components:{
         navBar,
         footerBar,
-        userBill
+        userbill
     },
     // created:{
 

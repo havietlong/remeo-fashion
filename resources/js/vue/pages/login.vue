@@ -119,7 +119,7 @@ export default {
           if(response.data.message=='Login successful'){
             router.push('/');
           }else{
-            router.push('/admin')
+            router.push('/admin/orders');
           }
         })
         .catch(error => {

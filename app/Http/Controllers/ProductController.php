@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\DB;
 use App\Models\products;
 use App\Models\product_categories;
@@ -14,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return products::orderBy('id','DESC')->get();
+        return products::orderBy('id', 'DESC')->get();
     }
 
 
@@ -23,10 +24,10 @@ class ProductController extends Controller
      */
     public function showProdByTypes(string $id)
     {
-        
+
         $product_type_id = $id;
         $products = products::where('product_type_id', $product_type_id)->get();
-        switch ($products){
+        switch ($products) {
             case true:
                 return response()->json($products);
             default:
@@ -72,16 +73,15 @@ class ProductController extends Controller
     public function show(string $id)
     {
         // Find the product by its ID
-    $product = products::find($id);
+        $product = products::find($id);
 
-    if (!$product) {
-        // If the product with the provided ID is not found, return a 404 response
-        return response()->json(['error' => 'Product not found'], 404);
-    }
+        if (!$product) {
+            // If the product with the provided ID is not found, return a 404 response
+            return response()->json(['error' => 'Product not found'], 404);
+        }
 
-    // Return the product details
-    return response()->json($product);
-
+        // Return the product details
+        return response()->json($product);
     }
 
     /**
@@ -98,18 +98,33 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $existingProduct = products::find($id);
-        switch ($existingProduct){
+        switch ($existingProduct) {
             case true:
-        $existingProduct->name = $request->products["name"];
-        $existingProduct->price = $request->products["price"];
-        $existingProduct->description = $request->products["description"];
-        $existingProduct->product_type_id = $request->products["product_type_id"];
-        $existingProduct->save();
-        return $existingProduct;
+                $existingProduct->name = $request->products["name"];
+                $existingProduct->price = $request->products["price"];
+                $existingProduct->description = $request->products["description"];
+                $existingProduct->product_type_id = $request->products["product_type_id"];
+                $existingProduct->save();
+                return $existingProduct;
             default:
-            return "Không tìm thấy sản phẩm";
+                return "Không tìm thấy sản phẩm";
         }
     }
+
+    public function modifyProduct(Request $request, string $id)
+    {
+        $product = products::find($id);
+        if ($product) {
+            if ($product) {
+                // Update the product data with the data from the request
+                $product->update($request->all());
+                return response()->json(['message' => 'Updated product']);
+            } else {
+                return response()->json(['message' => 'Product not found'], 404);
+            }
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -117,12 +132,12 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $existingProduct = products::find($id);
-        switch ($existingProduct){
+        switch ($existingProduct) {
             case true:
-        $existingProduct->delete();
-        return "Đã xóa sản phẩm";
+                $existingProduct->delete();
+                return "Đã xóa sản phẩm";
             default:
-            return "Không tìm thấy sản phẩm";
+                return "Không tìm thấy sản phẩm";
         }
     }
 }

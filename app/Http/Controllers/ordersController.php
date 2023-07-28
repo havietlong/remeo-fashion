@@ -13,12 +13,34 @@ class ordersController extends Controller
     public function index(Request $request)
     {
         $customer_id = $request->input('user_id');
-        $orders = orders::where('customer_id', $customer_id)
-            ->orderBy('id', 'DESC')
+        if (!isset($customer_id)) {
+            $orders = orders::orderBy('id', 'DESC')
+            ->join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->where('order_status','pending')
+            ->select('orders.id', 'orders.customer_id', 'customers.name', 'orders.order_price')
             ->get();
-        return response()->json($orders);
+            return response()->json($orders);
+        } else {
+            $orders = orders::where('customer_id', $customer_id)
+                ->orderBy('id', 'DESC')
+                ->get();
+            return response()->json($orders);
+        }
     }
 
+    public function verifyOrder(Request $request,string $id)
+    {
+        
+        $order = orders::find($id);
+        if ($order) {
+        $order->order_status = 'approved';
+        $order->save();
+        return response()->json(['message' => 'Order status updated to Approved']);
+        } else {
+        return response()->json(['message' => 'Order not found'], 404);
+        }
+    }
+    
 
     public function latestIndex()
     {

@@ -8,6 +8,8 @@ import not_found from '../pages/not_found.vue';
 import successPurchase from '../pages/successPurchase.vue';
 import formCheckOut from '../components/formCheckOut.vue';
 import manageOrder from '../pages/manageOrder.vue';
+import staff_orders from '../pages/staff_orders.vue';
+import staff_shop from '../pages/staff_shop.vue';
 
 const routes = [
     {
@@ -82,7 +84,18 @@ const routes = [
         path: '/user/successPurchase', // Catch-all route for unknown paths
         component: successPurchase,
         name: 'successPurchase'
+    },
+    {
+        path: '/admin/orders', // Catch-all route for unknown paths
+        component: staff_orders,
+        name: 'staff_orders'
+    },
+    {
+        path: '/admin/shop', // Catch-all route for unknown paths
+        component: staff_shop,
+        name: 'staff_shop'
     }
+    
     
       
 ]

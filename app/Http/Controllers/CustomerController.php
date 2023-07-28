@@ -30,24 +30,23 @@ class CustomerController extends Controller
         if (!$user) {
             // Invalid email or user not found
             return response()->json(['message' => 'Invalid email'], 401);
-        }
-
-        // Compare the provided password with the hashed password stored in the user record
-        if ($credentials['password'] !== $user->password){
-            // Invalid password
-            return response()->json(['message' => 'Invalid password'], 401);
-        }
-
-        if ($role == 2 || $role === '2') {
-            return response()->json(['message' => 'Login successful as Admin'], 200);
-            
-        $this->createAdminSession($user);
         } else {
-            
-            // Login successful
-            return response()->json(['message' => 'Login successful'], 200);
-            
-        $this->createUserSession($user);
+            // Compare the provided password with the hashed password stored in the user record
+            if ($credentials['password'] !== $user->password) {
+                // Invalid password
+                return response()->json(['message' => 'Invalid password'], 401);
+            } else {
+                if ($role == 2 || $role === '2') {
+                    $this->createAdminSession($user);
+                    return response()->json(['message' => 'Login successful as Admin'], 200);
+                } else {
+                    $this->createUserSession($user);
+                    // Login successful
+                    return response()->json(['message' => 'Login successful'], 200);
+
+                    
+                }
+            }
         }
     }
 
