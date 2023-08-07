@@ -25,7 +25,9 @@
 
           <!-- 2 column grid layout -->
           <div class="row_login mb-4">
-            <!-- Checkbox and Forgot password link -->
+            <label style="color: red;" v-if="errorMessage==true">
+              Email hoặc Mật khẩu không hợp lệ
+            </label>
           </div>
 
           <!-- Submit button -->
@@ -78,6 +80,9 @@
             <label class="form-check-label" for="registerCheck">
               I have read and agree to the terms
             </label>
+            <label style="color: red;" v-if="errorMessage==true">
+              Email hoặc Mật khẩu không hợp lệ
+            </label>
           </div>
 
           <!-- Submit button -->
@@ -94,6 +99,7 @@ import router from '../router';
 export default {
   data() {
     return {
+      errorMessage:false,
       activeOption: 'login',
       loginForm: {
         email: '',
@@ -120,6 +126,7 @@ export default {
             router.push('/');
           }else if(response.data.message=='Login successful as Admin'){
             router.push('/admin/staff');
+            
           }
           else{
             router.push('/staff/orders');
@@ -128,6 +135,7 @@ export default {
         .catch(error => {
           // Handle any errors
           console.error(error);
+          this.errorMessage = true;
         });
     },
     submitRegisterForm() {
@@ -137,14 +145,16 @@ export default {
         .post('/api/user/register', this.registerForm)
         .then(response => {
           // Handle the API response
-          console.log(response.data);
-          if(response.data.message=='Register successful'){
+          console.log(response.data.message);
+          if (response.data.message==='Register successful'){
             router.push('/');
           }
         })
         .catch(error => {
           // Handle any errors
           console.error(error);
+          console.log("true");
+          this.errorMessage = true;
         });
     }
   }
@@ -157,5 +167,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 </style>

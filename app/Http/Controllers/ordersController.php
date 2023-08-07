@@ -14,12 +14,22 @@ class ordersController extends Controller
     {
         $customer_id = $request->input('user_id');
         if (!isset($customer_id)) {
-            $orders = orders::orderBy('id', 'DESC')
-            ->join('users', 'orders.customer_id', '=', 'users.id')
-            ->where('order_status','pending')
-            ->select('orders.id', 'orders.customer_id', 'users.name', 'orders.order_price')
-            ->get();
-            return response()->json($orders);
+            if (session('admin') == null) {
+                $orders = orders::orderBy('id', 'DESC')
+                    ->join('users', 'orders.customer_id', '=', 'users.id')
+                    ->select('orders.*', 'orders.customer_id', 'users.name', 'orders.order_price')
+                    ->get();
+                return response()->json($orders);
+            } else {
+                $orders = orders::select(
+                    orders::raw('DATE(order_date) as date'),
+                    orders::raw('COUNT(*) as count'),
+                    orders::raw('SUM(order_price) as total_money')
+                )
+                ->groupBy('date')
+                ->get();
+                    return response()->json($orders);
+            }
         } else {
             $orders = orders::where('customer_id', $customer_id)
                 ->orderBy('id', 'DESC')
@@ -28,19 +38,19 @@ class ordersController extends Controller
         }
     }
 
-    public function verifyOrder(Request $request,string $id)
+    public function verifyOrder(Request $request, string $id)
     {
-        
+
         $order = orders::find($id);
         if ($order) {
-        $order->order_status = 'approved';
-        $order->save();
-        return response()->json(['message' => 'Order status updated to Approved']);
+            $order->order_status = 'approved';
+            $order->save();
+            return response()->json(['message' => 'Order status updated to Approved']);
         } else {
-        return response()->json(['message' => 'Order not found'], 404);
+            return response()->json(['message' => 'Order not found'], 404);
         }
     }
-    
+
 
     public function latestIndex()
     {
@@ -64,6 +74,7 @@ class ordersController extends Controller
         $newOrder->customer_id = $request->input('user_id');
         $newOrder->order_date = now();
         $newOrder->order_price = $request->input('total_order');
+        $newOrder->order_status = "approved";
         $newOrder->save();
 
         return response("Successfully added to orders");

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\order_items;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class order_itemsController extends Controller
 {
@@ -12,12 +13,23 @@ class order_itemsController extends Controller
      */
     public function index(Request $request)
     {
+        if(session('admin')==null){
         $order_id = $request->input('order_id');
         $order_items = order_items::join('products', 'order_items.product_id', '=', 'products.id')
             ->where('order_items.order_id', $order_id)
             ->orderBy('order_items.id', 'DESC')
             ->get();
         return response()->json($order_items);
+        }else{
+            $order_date = $request->input('order_date');
+            $order_items = DB::table('orders')
+            ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->whereDate('orders.order_date', $order_date)
+            ->select('orders.*', 'order_items.*', 'products.*')
+            ->get();
+        return response()->json($order_items);
+        }
     }
 
     /**

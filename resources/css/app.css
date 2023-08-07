@@ -922,9 +922,8 @@ margin-left: 7.5cm;
 .tab-content {
   padding: 1rem;
   background-color: #fff;
-  border: 1px solid #ccc;
   border-radius: 0.25rem;
-  max-width: 500px; /* Add this property */
+  width: 500px; /* Add this property */
   margin: 0 auto; /* Add this property */
 }
 

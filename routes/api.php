@@ -45,7 +45,13 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     
-    
+    Route::prefix('/inVoice')->group(function () {
+        Route::post('/addOrder_items', [order_itemsController::class, 'store']);
+        Route::post('/addOrders', [ordersController::class, 'store']);
+        Route::get('/Orders', [ordersController::class, 'latestIndex']);
+        Route::get('/Order', [ordersController::class, 'index']);
+        Route::get('/Order_items', [order_itemsController::class, 'index']);
+    });
 
 });
 
@@ -76,13 +82,7 @@ Route::prefix('/categories')->group(function () {
 });
 
 //INVOICE 
-Route::prefix('/inVoice')->group(function () {
-    Route::post('/addOrder_items', [order_itemsController::class, 'store']);
-    Route::post('/addOrders', [ordersController::class, 'store']);
-    Route::get('/Orders', [ordersController::class, 'latestIndex']);
-    Route::get('/Order', [ordersController::class, 'index']);
-    Route::get('/Order_items', [order_itemsController::class, 'index']);
-});
+
 
 //STAFF
 Route::get('/staff', [usersController::class, 'staffIndex']);

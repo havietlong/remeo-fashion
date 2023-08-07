@@ -1,9 +1,8 @@
 <template>
     <navBar></navBar>
     <div class="banner">
-        <img 
-            id="banner-image"
-            src="https://scontent.fhan14-3.fna.fbcdn.net/v/t1.15752-9/350237306_1408701069704409_1527441761651885589_n.png?_nc_cat=104&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Oo3xGD5Qs_kAX9cVrB3&_nc_ht=scontent.fhan14-3.fna&oh=03_AdSgtMR1TnyMO5KvK0LAb4SaMT-G_zzOgHWDfZtyO1xCcg&oe=649AE720"
+        <img id="banner-image"
+            src="https://www.charleskeith.com/on/demandware.static/-/Library-Sites-CharlesKeith/default/dw5db55de6/images/homepage/2023/charles-keith-home-s-canvas-capsule-week-29-1920x700.jpg"
             alt="Banner">
     </div>
     <div class="image-container">
@@ -24,7 +23,7 @@
                 <b>Cập nhật xu hướng: Các thiết kế túi đeo chéo thời thượng</b>
                 <p>Tô điểm cho vẻ ngoài của bạn với một chút thanh nhã và tự tin​</p>
                 <br>
-                <a href="#">SHOP NOW</a>
+                <router-link to="/products/bags" @click="checkboxChanged(5)">SHOP NOW</router-link>
             </div>
         </div>
 
@@ -54,19 +53,23 @@
     </div>
     <newProducts></newProducts>
     <footerBar></footerBar>
-    
 </template>
 <script>
 import categories from '../components/categories.vue';
 import footerBar from '../components/footerBar.vue';
 import newProducts from '../components/newProducts.vue';
 import navBar from '../components/navBar.vue';
-export default{
-    components:{
+export default {
+    components: {
         navBar,
         categories,
         newProducts,
         footerBar
+    },
+    methods: {
+        checkboxChanged(value) {
+            this.$emit('checkbox-selected', value);
+        },
     }
 }
 </script>

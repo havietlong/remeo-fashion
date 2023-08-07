@@ -11,6 +11,9 @@ import manageOrder from '../pages/manageOrder.vue';
 import staff_orders from '../pages/staff_orders.vue';
 import staff_shop from '../pages/staff_shop.vue';
 import admin_staff from '../pages/admin_staff.vue';
+import admin_data from '../pages/admin_data.vue';
+import admin_orders from '../pages/admin_orders.vue';
+import admin_shop from '../pages/admin_shop.vue';
 
 const routes = [
     {
@@ -101,6 +104,21 @@ const routes = [
         component: admin_staff,
         name: 'admin_staff'
     },
+    {
+        path: '/admin/orders', // Catch-all route for unknown paths
+        component: admin_orders,
+        name: 'admin_orders'
+    },
+    {
+        path: '/admin/shop', // Catch-all route for unknown paths
+        component: admin_shop,
+        name: 'admin_shop'
+    },
+    {
+        path: '/admin/data', // Catch-all route for unknown paths
+        component: admin_data,
+        name: 'admin_data'
+    }
   
     
     

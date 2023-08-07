@@ -10,7 +10,6 @@
             <th>ID</th>
             <th>Khách hàng</th>
             <th>Giá trị</th>
-            <th>Lệnh</th>
           </tr>
         </thead>
         <tbody v-for="product in products" :key="product.id">
@@ -18,12 +17,6 @@
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.order_price }}</td>
-            <td>
-              
-                <button @click="approveOrders(product.id)">Chấp thuận</button>
-    
-              <button>Hủy</button>
-            </td>
           </tr>
           <tr>
             <td colspan="4">
@@ -112,7 +105,7 @@ export default {
     },
     approveOrders(order_id) {
       axios
-        .put(`/api/admin/verify/${order_id}`)
+        .put(`/api/staff/verify/${order_id}`)
         .then((response) => {
           console.log(response);
         })

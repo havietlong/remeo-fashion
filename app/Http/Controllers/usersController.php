@@ -116,7 +116,15 @@ class usersController extends Controller
     public function store(Request $request)
     {
         $credentials = $request->only('name', 'email', 'password', 'repeatPassword');
-        if ($credentials['password'] == $credentials['repeatPassword']) {
+      
+
+        // Retrieve the user record based on the provided email
+        $user = users::where('email', $credentials['email'])->first();
+        if ($user) {
+            // Invalid email or user not found
+            return response()->json(['message' => 'Register fail'], 401);
+        } 
+        if ($credentials['password'] == $credentials['repeatPassword'] && strlen($credentials['repeatPassword']) > 8) {
             $newUser = new users();
             $newUser->name = $credentials['name'];
             $newUser->email = $credentials['email'];

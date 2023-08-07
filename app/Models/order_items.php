@@ -9,4 +9,5 @@ class order_items extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    
 }

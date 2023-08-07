@@ -1,5 +1,6 @@
 <template>
-  <navBar @checkbox-selected="checkboxSelected"/>
+  <index v-if="isShow==true" @checkbox-selected="checkboxSelected"/>
+  <navBar @checkbox-selected="checkboxSelected" />
   <div class="container_pro">
     <filterTab @checkbox-selected="checkboxSelected" />
     <div class="banner_box">
@@ -30,35 +31,46 @@
 <script>
 import navBar from '../components/navBar.vue';
 import footerBar from '../components/footerBar.vue';
-import filterTab from '../components/filterTab.vue';
+import filterTab from '../components/filtertab.vue';
 import prodBanner from '../components/prodBanner.vue';
 import axios from 'axios';
+import index from './index.vue';
+import router from '../router';
 
 export default {
   components: {
     navBar,
     filterTab,
     prodBanner,
-    footerBar
+    footerBar,
+    index
   },
   data() {
     return {
       products: [], // Initialize an empty array
       checkboxValue: null,
+      isShow:false
     };
   },
   created() {
+    this.checkboxSelected(),
     this.$watch(
       () => this.$route.params,
       () => {
-        this.filterType();
+        this.checkboxSelected();
       },
     );
-    this.filterType();
   },
   methods: {
     checkboxSelected(value) {
       this.checkboxValue = value;
+      if (this.checkboxValue == null) {
+        console.log("null");
+        this.filterType();
+      } else {
+        console.log("not null");
+        this.fetchFilteredProducts();
+      }
     },
     filterType() {
       const url = window.location.href;
@@ -100,14 +112,13 @@ export default {
           console.error(error);
         });
     },
-
     // Add a new method to make the API call
     fetchFilteredProducts() {
-      if (this.checkboxValue !== null) {
-        // Make the API call using the selected checkbox value
-        if (this.checkboxValue == 999 || this.checkboxValue === '999') {
-          this.filterType();
-        }else{
+
+      // Make the API call using the selected checkbox value
+      if (this.checkboxValue == 999 || this.checkboxValue === '999') {
+        this.filterType();
+      } else {
         axios
           .get(`/api/products/category/${this.checkboxValue}`)
           .then(response => {
@@ -116,24 +127,15 @@ export default {
           .catch(error => {
             console.error(error);
           });
-        }
-      }else{
-        console.log()
       }
+
     }
 
-    
+
 
 
   },
-  watch: {
-    checkboxValue: {
-      handler() {
-        this.fetchFilteredProducts(); // Call the API when checkboxValue changes
-      },
-      immediate: true, // Call the API on initial load as well
-    },
-  },
+  
 };
 </script>
   
