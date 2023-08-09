@@ -1,9 +1,7 @@
 <template>
     <topBar />
     <sideBar />
-    <manageData/>
-
-   
+    <manageData />
 </template>
 <script>
 
@@ -16,29 +14,29 @@ export default {
         manageData,
         topBar
     },
-    created(){
+    created() {
         this.checkUserLogin();
     },
     methods: {
         checkUserLogin() {
-      // Make the API call using the selected checkbox value
-      axios.get(`/api/user`).then((response) => {
-        console.log(response);
-        const responseData = response.data; // The entire response object
-        if (responseData.staff) {
-          this.staffSession = true;
-          this.adminSession = false;
-        } else if (responseData.admin) {
-          this.adminSession = true;
-          this.staffSession = false;
-        } else {
-          // Handle the case when the response has more than one data item
-          
-          axios.get(`/api/user/destroy_session`);
-          this.$router.push({ name: 'login' });
-        }
-      });
-    },
+            // Make the API call using the selected checkbox value
+            axios.get(`/api/user`).then((response) => {
+                console.log(response);
+                const responseData = response.data; // The entire response object
+                if (responseData.staff) {
+                    this.staffSession = true;
+                    this.adminSession = false;
+                } else if (responseData.admin) {
+                    this.adminSession = true;
+                    this.staffSession = false;
+                } else {
+                    // Handle the case when the response has more than one data item
+
+                    axios.get(`/api/user/destroy_session`);
+                    this.$router.push({ name: 'login' });
+                }
+            });
+        },
         fetchProducts(product_type_id) {
             axios
                 .get(`/api/products/type/${product_type_id}`)
@@ -49,7 +47,7 @@ export default {
                     console.error(error);
                 });
         },
-        
+
     }
 }
 </script>
