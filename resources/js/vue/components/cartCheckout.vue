@@ -9,7 +9,7 @@
                         <th>Tên</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
-                        <th>Tổng</th>
+                        <th colspan="2">Tổng</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,6 +32,7 @@
 
                         </td>
                         <td>{{ calculateTotalPrice(product) }}</td>
+                        <td><i @click="deleteCart(index)" style="cursor: pointer;" class='bx bxs-trash-alt' ></i></td>
                     </tr>
                     <tr v-else>
                         <td>
@@ -39,7 +40,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="background-color: #f2f2f2;"><b>Tổng hóa đơn</b></td>
+                        <td colspan="5" style="background-color: #f2f2f2;"><b>Tổng hóa đơn</b></td>
                         <td style="background-color: #f2f2f2;">{{ totalOrder(product) }}</td>
                     </tr>
                     <!-- <tr>
@@ -69,17 +70,17 @@
             </div>
             <form action="checkout" method="get" class="checkOutForm">
                 <div class="fillInCheckOut">
-                    <input type="text" style="width:45%" id="full-name" name="full-name" required placeholder="Chủ thẻ"
+                    <input type="text" minlength="13" style="width:45%" id="full-name" name="full-name" required placeholder="Chủ thẻ"
                         class="promo-input">
 
 
-                    <input type="text" style="width:36%" id="credit-card" name="credit-card" required
+                    <input type="text" minlength="16" style="width:36%" id="credit-card" name="credit-card" required
                         placeholder="Thông tin thẻ thanh toán" class="promo-input">
 
                     <input type="text" id="expiration-date" name="expiration-date" required placeholder="Ngày hết hạn"
                         class="promo-input">
 
-                    <input type="text" id="cvv" name="cvv" required placeholder="Mã CVV" class="promo-input">
+                    <input type="text" maxlength="3" id="cvv" name="cvv" required placeholder="Mã CVV" class="promo-input">
                 </div>
                 <div class="productInCart_checkOut" v-for="(product, index) in products" :key="index">
                     <input type="text" :name="`productQuantity_` + index" :value="product.quantity" hidden>
@@ -215,6 +216,12 @@ export default {
         this.checkUserLogin();
     },
     methods: {
+        deleteCart(index){
+            axios.post(`/api/cart/delete`,{ index }).then((response) => {
+                console.log(response.data)
+                window.location.reload();
+            }); 
+        },
         checkUserLogin() {
             // Make the API call using the selected checkbox value
             axios.get(`/api/user`).then((response) => {

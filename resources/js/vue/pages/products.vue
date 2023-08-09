@@ -1,28 +1,10 @@
 <template>
-  <index v-if="isShow==true" @checkbox-selected="checkboxSelected"/>
-  <navBar @checkbox-selected="checkboxSelected" />
+  <navBar/>
   <div class="container_pro">
-    <filterTab @checkbox-selected="checkboxSelected" />
+    <filterTab @checkbox-selected="updateCheckboxValue"/>
     <div class="banner_box">
       <prodBanner />
-      <div class="product">
-        <div v-for="product in products" :key="product.id" class="product-display">
-
-          <img :src="`${product.image_link}`" alt="Hình ảnh sản phẩm" class="product-image" />
-
-          <div class="product-info">
-            <div class="product-details" @mouseover="toggleElements" @mouseleave="toggleElements">
-              <router-link :to="`/product_detail/${product.id}`">
-                <h3>{{ product.name }}</h3>
-              </router-link>
-              <p>{{ product.price }}</p>
-            </div>
-            <div class="product-sizes" @mouseover="toggleElements" @mouseleave="toggleElements">
-              <button class="add-to-cart-button" @click="addToCart(product)">Thêm vào giỏ hàng</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <displayProducts  ref="disPlayProdRef"/>
     </div>
   </div>
   <footerBar />
@@ -33,9 +15,8 @@ import navBar from '../components/navBar.vue';
 import footerBar from '../components/footerBar.vue';
 import filterTab from '../components/filtertab.vue';
 import prodBanner from '../components/prodBanner.vue';
-import axios from 'axios';
 import index from './index.vue';
-import router from '../router';
+import displayProducts from '../components/displayProducts.vue';
 
 export default {
   components: {
@@ -43,99 +24,25 @@ export default {
     filterTab,
     prodBanner,
     footerBar,
+    displayProducts,
     index
   },
   data() {
     return {
-      products: [], // Initialize an empty array
-      checkboxValue: null,
-      isShow:false
+      checkboxValue:Int16Array,
     };
   },
-  created() {
-    this.checkboxSelected(),
-    this.$watch(
-      () => this.$route.params,
-      () => {
-        this.checkboxSelected();
-      },
-    );
+  created(){
+    this.updateCheckboxValue
   },
-  methods: {
-    checkboxSelected(value) {
+  methods:{
+    updateCheckboxValue(value) {
       this.checkboxValue = value;
-      if (this.checkboxValue == null) {
-        console.log("null");
-        this.filterType();
-      } else {
-        console.log("not null");
-        this.fetchFilteredProducts();
-      }
+      console.log( this.checkboxValue );
+      this.$refs.disPlayProdRef.checkboxSelected(value);
+      this.$refs.disPlayProdRef.fetchFilteredProducts();
     },
-    filterType() {
-      const url = window.location.href;
-      const parts = url.split("/");
-      this.path = parts[parts.length - 1];
-      const product_type = this.path;
-      let product_type_id = '';
-
-      switch (product_type) {
-        case 'shoes':
-          product_type_id = 1;
-          this.fetchProducts(product_type_id);
-          break;
-        case 'bags':
-          product_type_id = 2;
-          this.fetchProducts(product_type_id);
-          break;
-        case 'wallets':
-          product_type_id = 3;
-          this.fetchProducts(product_type_id);
-          break;
-        case 'sunglasses':
-          product_type_id = 4;
-          this.fetchProducts(product_type_id);
-          break;
-        case 'jewellery':
-          product_type_id = 5;
-          this.fetchProducts(product_type_id);
-          break;
-      }
-    },
-    fetchProducts(product_type_id) {
-      axios
-        .get(`/api/products/type/${product_type_id}`)
-        .then(response => {
-          this.products = response.data; // Assign retrieved data to the products array
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
-    // Add a new method to make the API call
-    fetchFilteredProducts() {
-
-      // Make the API call using the selected checkbox value
-      if (this.checkboxValue == 999 || this.checkboxValue === '999') {
-        this.filterType();
-      } else {
-        axios
-          .get(`/api/products/category/${this.checkboxValue}`)
-          .then(response => {
-            this.products = response.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-
-    }
-
-
-
-
-  },
-  
+  }
 };
 </script>
   

@@ -15,17 +15,17 @@
                     <div class="dropdown-content">
                         <div class="right-content">
                             <b>Mua theo danh mục</b>
-                            <router-link to="/products/shoes" @click="checkboxChanged(1)">Giày
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 1 } }">Giày
                                 xăng
                                 đan</router-link>
-                                <router-link to="/products/shoes" @click="checkboxChanged(2)">Giày cao gót</router-link>
-                                <router-link to="/products/shoes" @click="checkboxChanged(3)">Giày đế bệt</router-link>
+                                <router-link :to="{ name: 'shoes', params: { checkboxValue: 2 } }">Giày cao gót</router-link>
+                                <router-link :to="{ name: 'shoes', params: { checkboxValue: 3 } }">Giày đế bệt</router-link>
                         </div>
                         <div class="left-content">
                             <div class="image-with-text">
                                 <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw62befb9f/images/megamenu/2023/CharlesKeith_MegaMenu-Shoes_week20-1-500x667.jpg"
                                     alt="Image 1" />
-                                <router-link to="/products/shoes" @click="checkboxChanged(3)">GIÀY ĐẾ BỆT</router-link>
+                                <router-link :to="{ name: 'shoes', params: { checkboxValue: 3 } }">GIÀY ĐẾ BỆT</router-link>
                             </div>
                         </div>
                     </div>
@@ -38,15 +38,15 @@
                 <div class="dropdown-content">
                     <div class="right-content">
                         <b>Mua theo danh mục</b>
-                        <router-link to="/products/bags" @click="checkboxChanged(4)">Túi clutch</router-link>
-                        <router-link to="/products/bags" @click="checkboxChanged(5)">Túi đeo chéo</router-link>
-                        <router-link to="/products/bags" @click="checkboxChanged(6)">Túi xách</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 4 } }">Túi clutch</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 5 } }">Túi đeo chéo</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 6 } }">Túi xách</router-link>
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
                             <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dwac3ec366/images/megamenu/2023/CharlesKeith_MegaMenu-Bags_week22-1-500x667.jpg"
                                 alt="Image 1" />
-                            <router-link to="/products/bags" @click="checkboxChanged(5)">TÚI ĐEO CHÉO</router-link>
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 5 } }">TÚI ĐEO CHÉO</router-link>
                         </div>
                     </div>
                 </div>
@@ -58,14 +58,14 @@
                 <div class="dropdown-content">
                     <div class="right-content">
                         <b>Mua theo danh mục</b>
-                        <router-link to="/products/wallets" @click="checkboxChanged(7)">Ví đựng thẻ</router-link>
-                        <router-link to="/products/wallets" @click="checkboxChanged(8)">Ví dài</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 7 } }">Ví đựng thẻ</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 8 } }">Ví dài</router-link>
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
                             <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw2c1cea2f/images/megamenu/2023/CharlesKeith_MegaMenu-Wallets_week14-1-500x667.jpg"
                                 alt="Image 1" />
-                            <router-link to="/products/wallets" @click="checkboxChanged(7)">VÍ ĐỰNG THẺ</router-link>
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 7 } }">VÍ ĐỰNG THẺ</router-link>
                         </div>
                     </div>
                 </div>
@@ -77,15 +77,15 @@
                 <div class="dropdown-content">
                     <div class="right-content">
                         <b>Mua theo danh mục</b>
-                        <router-link to="/products/sunglasses" @click="checkboxChanged(10)">Kính gọng tròn</router-link>
-                        <router-link to="/products/sunglasses" @click="checkboxChanged(9)">Kính gọng vuông</router-link>
-                        <router-link to="/products/sunglasses" @click="checkboxChanged(11)">Kính gọng Chữ nhật</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 10 } }">Kính gọng tròn</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 9 } }">Kính gọng vuông</router-link>
+                        <router-link :to="{ name: 'shoes', params: { checkboxValue: 11 } }">Kính gọng Chữ nhật</router-link>
                     </div>
                     <div class="left-content">
                         <div class="image-with-text">
                             <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw2c1cea2f/images/megamenu/2023/CharlesKeith_MegaMenu-Wallets_week14-1-500x667.jpg"
                                 alt="Image 1" />
-                            <router-link to="/products/sunglasses" @click="checkboxChanged(11)">KÍNH GỌNG CHỮ NHẬT</router-link>
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 11 } }">KÍNH GỌNG CHỮ NHẬT</router-link>
                         </div>
                     </div>
                 </div>
@@ -98,15 +98,15 @@
                     <div class="dropdown-content">
                         <div class="right-content">
                             <b>Mua theo danh mục</b>
-                            <router-link to="/products/jewellery" @click="checkboxChanged(12)">Khuyên tai</router-link>
-                            <router-link to="/products/jewellery" @click="checkboxChanged(13)">Nhẫn</router-link>
-                            <router-link to="/products/jewellery" @click="checkboxChanged(14)">Vòng tay</router-link>
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 12 } }">Khuyên tai</router-link>
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 13 } }">Nhẫn</router-link>
+                            <router-link :to="{ name: 'shoes', params: { checkboxValue: 14 } }">Vòng tay</router-link>
                         </div>
                         <div class="left-content">
                             <div class="image-with-text">
                                 <img src="https://www.charleskeith.vn/on/demandware.static/-/Library-Sites-CharlesKeithVN/default/dw62befb9f/images/megamenu/2023/CharlesKeith_MegaMenu-Shoes_week20-1-500x667.jpg"
                                     alt="Image 1" />
-                                <router-link to="/products/jewellery" @click="checkboxChanged(14)">VÒNG  TAY</router-link>
+                                <router-link :to="{ name: 'shoes', params: { checkboxValue: 14 } }">VÒNG  TAY</router-link>
                             </div>
                         </div>
                     </div>
@@ -179,9 +179,7 @@ export default {
         this.checkUserLogin();
     },
     methods: {
-        checkboxChanged(value) {
-            this.$emit('checkbox-selected', value);
-        },
+        
         fetchCartQuantity() {
             // Make the API call using the selected checkbox value
             axios

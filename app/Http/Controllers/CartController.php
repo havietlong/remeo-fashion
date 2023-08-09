@@ -23,13 +23,13 @@ class CartController extends Controller
         $cartItems = session('cart', []);
 
         $totalQuantity = 0;
-    
+
         // Iterate over cartItems array and accumulate quantities
         foreach ($cartItems as $cartItem) {
             $quantity = $cartItem['quantity'];
             $totalQuantity += $quantity;
         }
-    
+
         return $totalQuantity;
     }
     /**
@@ -107,14 +107,27 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $index = $request->input('index');
+        // Retrieve the current cart items from the session or initialize an empty array if it doesn't exist
+        $cartItems = session()->get('cart', []);
+        unset($cartItems[$index]);
+        $cartItems = array_values($cartItems);
+            
+            // Store the updated cart array back into the session
+        session()->put('cart', $cartItems);
+        // Check if the provided index is within the bounds of the cart array
+    
+        // Redirect back to the cart page or return a JSON response
+        // depending on your application's logic
+        return response("deleted from cart"); // Adjust this to your route name
     }
+    
 
     public function destroySessionCart(Request $request)
     {
         $request->session()->forget('cart'); // Flush all session data
-    return redirect()->route('home')->with('success', 'Session destroyed successfully.');
+        return redirect()->route('home')->with('success', 'Session destroyed successfully.');
     }
 }

@@ -192,7 +192,7 @@ class usersController extends Controller
 
     public function destroySessionUser(Request $request)
     {
-        $request->session('user')->flush();
+        $request->session()->forget('user');
         return Redirect::route('home')->with('success', 'Session destroyed successfully.');
     }
 }

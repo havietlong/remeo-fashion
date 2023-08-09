@@ -23,7 +23,7 @@
                 <b>Cập nhật xu hướng: Các thiết kế túi đeo chéo thời thượng</b>
                 <p>Tô điểm cho vẻ ngoài của bạn với một chút thanh nhã và tự tin​</p>
                 <br>
-                <router-link to="/products/bags" @click="checkboxChanged(5)">SHOP NOW</router-link>
+                <router-link  :to="{ name: 'bags', params: { checkboxValue: 5 } }">SHOP NOW</router-link>
             </div>
         </div>
 

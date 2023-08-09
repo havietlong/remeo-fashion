@@ -32,7 +32,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/add', [CartController::class, 'store']);
         Route::get('/quantity', [CartController::class, 'indexQuantity']);
         Route::put('/update/{id}', [CartController::class, 'update']);
-        Route::delete('/delete/{id}', [CartController::class, 'destroy']);
+        Route::post('/delete', [CartController::class, 'destroy']);
         Route::get('/destroy_session', [CartController::class, 'destroySessionCart']);
     });
 
